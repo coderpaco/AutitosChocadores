@@ -26,6 +26,23 @@ public class AutitosChocadores
     {
         initializeGameBoard();
     }
+     
+     private char[][] getRandomAutito() {
+        Autito autito = new Autito(0); // Assumes position is utilized somehow
+        char[][][] autitos = {autito.getAutitoUp(), autito.getAutitoDown(), autito.getAutitoLeft(), autito.getAutitoRight()};
+        Random random = new Random();
+        return autitos[random.nextInt(autitos.length)];
+    }
+
+    private void displayRandomAutito() {
+        char[][] randomAutito = getRandomAutito();
+        for (char[] row : randomAutito) {
+            for (char c : row) {
+                System.out.print(c);
+            }
+            System.out.println();
+        }
+    }
     
     private void initializeGameBoard() 
     {
