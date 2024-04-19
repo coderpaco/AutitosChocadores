@@ -1,5 +1,5 @@
 package autitoschocadores;
-import java.io.*;
+import java.io.*; 
 import java.util.*;
 /*TODO:
     1. change row numbers to print letters
@@ -51,7 +51,7 @@ public class AutitosChocadores
                     System.out.println("Tamano? (mxm)");
                     m = getValidInput(5,7);
                     //scan.nextLine();
-                    System.out.println("Cantidad de autitos (n)?");
+                    System.out.println("Cantidad de autitos (n)?"); 
                     n = getValidInput(3,12);
                     generateRandomTable(m, n);
                     displayGameBoard();
@@ -165,6 +165,14 @@ public class AutitosChocadores
         Random random = new Random();
         return symbols[random.nextInt(symbols.length)];
     }
+
+    private char[][] getRandomAutito() 
+    {
+        Autito autito = new autito;
+        char[][] autitos = {getAutitoUp, getAutitoDown, getAutitoLeft, getAutitoRight};
+        Random random = new Random();
+        return autito[random.nextInt[][](autitos.length)];
+    }
     
     private char getRandomColor() 
     {
@@ -218,9 +226,14 @@ public class AutitosChocadores
         
     public static Jugadores crearPersona()
     {
+        System.out.print("Ingrese su nombre");
+        String nombre = scan.nextLine();
+        System.out.print("Ingrese su edad");
+        int edad = scan.nextInt();
+        scan.nextLine();
         System.out.print("Ingrese el alias: ");
         String alias = scan.nextLine();
-        Jugadores unaPersona = new Jugadores(alias,0,0,0,0,0);
+        Jugadores unaPersona = new Jugadores(nombre,edad, alias, 0, 0, 0, 0, 0);
         return unaPersona;
     }
 }
