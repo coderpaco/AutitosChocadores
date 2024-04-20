@@ -1,95 +1,95 @@
 package autitoschocadores;
 
 public class Jugadores {
-    private String alias; //no need to ask for player name just username?
-    private String nombre;
-    private int edad;
-    private int partidas;
-    private int ganadas;
-    private int perdidas;
-    private int abandonadas;
-    private int puntaje;
+    private String alias; // no need to ask for player name just username?
+    private String name;
+    private int age;
+    private int games;
+    private int wins;
+    private int losses;
+    private int forfeits;
+    private int points;
 
-    public String getNombre(){
-        return nombre;
+    public String getName() {
+        return name;
     }
-    
-    public int getEdad(){
-        return edad;
+
+    public int getAge() {
+        return age;
     }
-    
+
     public String getAlias() {
         return alias;
     }
 
-    public int getPartidas() {
-        return partidas;
+    public int getGames() {
+        return games;
     }
 
-    public int getGanadas() {
-        return ganadas;
+    public int getWins() {
+        return wins;
     }
 
-    public int getPerdidas() {
-        return perdidas;
+    public int getLosses() {
+        return losses;
     }
 
-    public int getAbandonadas() {
-        return abandonadas;
+    public int getForfeits() {
+        return forfeits;
     }
 
-    public int getPuntaje() {
-        return puntaje;
+    public int getPoints() {
+        return points;
     }
 
-    public void setNombre(String nombre){
-        this.nombre = alias;
-    }
-    
-    public void setEdad(int edad){
-        this.edad = edad;
-    }
-    
-    public void setAlias(String alias) {
-        this.alias = alias;
+    public void setName(String playerName) {
+        this.name = playerName;
     }
 
-    public void setPartidas(int partidas) {
-        this.partidas = partidas;
+    public void setEdad(int playerAge) {
+        this.age = playerAge;
     }
 
-    public void setGanadas(int ganadas) {
-        this.ganadas = ganadas;
+    public void setAlias(String playerAlias) {
+        this.alias = playerAlias;
     }
 
-    public void setPerdidas(int perdidas) {
-        this.perdidas = perdidas;
+    public void setPartidas(int playerGames) {
+        this.games = playerGames;
     }
 
-    public void setAbandonadas(int abandonadas) {
-        this.abandonadas = abandonadas;
+    public void setGanadas(int playerWins) {
+        this.wins = playerWins;
     }
 
-    public void setPuntaje(int puntaje) {
-        this.puntaje = puntaje;
+    public void setPerdidas(int playerLosses) {
+        this.losses = playerLosses;
     }
 
-    public Jugadores(String nombre, int edad,String alias, int partidas, int ganadas, int perdidas, int abandonadas, int puntaje) {
-        this.nombre = nombre;
-        this.edad = edad;
-        this.alias = alias;
-        this.partidas = partidas;
-        this.ganadas = ganadas;
-        this.perdidas = perdidas;
-        this.abandonadas = abandonadas;
-        this.puntaje = puntaje;
+    public void setAbandonadas(int playerForfeits) {
+        this.forfeits = playerForfeits;
     }
-    
+
+    public void setPuntaje(int playerPoints) {
+        this.points = playerPoints;
+    }
+
+    public Jugadores(String playerName, int playerAge, String playerAlias, int playerGames, int playerWins,
+            int playerLosses, int playerForfeits, int playerPoints) {
+        this.name = playerName;
+        this.age = playerAge;
+        this.alias = playerAlias;
+        this.games = playerGames;
+        this.wins = playerWins;
+        this.losses = playerLosses;
+        this.forfeits = playerForfeits;
+        this.points = playerPoints;
+    }
+
     @Override
-    public String toString()
-    {
-        return " | " + this.getAlias()+ " | " + this.getPartidas() + " | " 
-                + this.getGanadas() + " | " + this.getPerdidas() + " | "
-                + this.getAbandonadas() + " | " + this.getPuntaje() + " | ";
+    public String toString() {
+        return " | " + this.getAlias() + " | " + this.getGames() + " | "
+                + this.getWins() + " | " + this.getLosses() + " | "
+                + this.getForfeits() + " | " + this.getPoints() + " | ";
     }
 }
