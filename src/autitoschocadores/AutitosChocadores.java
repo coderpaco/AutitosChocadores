@@ -1,96 +1,109 @@
 package autitoschocadores;
-import java.io.*; 
+
+import java.io.*;
 import java.util.*;
 /*TODO:
-    1. change row numbers to print letters
+    1. change row numbers to print letters (done)
     2. when a move input is made (A12, where A is row), be able to compute 
             A= row 1, B= row 2, etc.
+    3. board is mxm (5x5) but is reallt 20x20 (5x4+5x4) because each cell is 4x4 to accomodate car up/down/left/right
 */
 
+public class AutitosChocadores {
 
-public class AutitosChocadores 
-{
-    
     public static Scanner scan = new Scanner(System.in);
+    public static Random random = new Random();
+
     public static String[][] board;
-    public static int m = 0; //board size (mxm)
-    public static int n = 0; //amt of cars (x=n;)
-    
-    public static void main(String[] args) 
-    {
+    public static int m = 0; // board size (mxm)
+    public static int n = 0; // amt of cars (x=n;)
+
+    public static int propioM = 0;
+    public static int propioN = 0;
+
+    public static void main(String[] args) {
+        Ranking ranking = new Ranking();
         AutitosChocadores game = new AutitosChocadores();// select option (al azar, propio, predefinido)
-        //game.startGame();
+        // game.startGame();
     }
-    
-    public AutitosChocadores() 
-    {
+
+    public AutitosChocadores() {
         initializeGameBoard();
     }
-     
-     private char[][] getRandomAutito() {
-        Autito autito = new Autito(0); // Assumes position is utilized somehow
-        char[][][] autitos = {autito.getAutitoUp(), autito.getAutitoDown(), autito.getAutitoLeft(), autito.getAutitoRight()};
-        Random random = new Random();
-        return autitos[random.nextInt(autitos.length)];
-    }
 
-    private void displayRandomAutito() {
-        char[][] randomAutito = getRandomAutito();
-        for (char[] row : randomAutito) {
-            for (char c : row) {
-                System.out.print(c);
-            }
-            System.out.println();
-        }
-    }
-    
-    private void initializeGameBoard() 
-    {
+    private void initializeGameBoard() {
+        Ranking ranking = new Ranking();
 
         System.out.println("Bienvenidos! Te gustaria jugar Autitos Chocadores? (si/no)");
         String choice = scan.nextLine().toLowerCase();
 
-        if (choice.equals("si")) 
-        {
+        if (choice.equals("si")) {
             // Ask the player for the game setup option
             System.out.println("Eligir un opcion:");
-            System.out.println("a) Usar tablero propio");
-            System.out.println("b) Usar tablero predefinido");
-            System.out.println("c) Generar un tablero al azar");
-            System.out.println("d) Salir del juego");
+            System.out.println("a) Registrar un jugador");
+            System.out.println("b) Configurar tablero propio");
+            System.out.println("c) Jugar");
+            System.out.println("d) Ranking");
+            System.out.println("e) Fin");
 
             char setupOption = scan.nextLine().toLowerCase().charAt(0);
 
-            switch (setupOption) 
-            {
-                case 'a'://user input to create table
-                    crearPersona();
-                    System.out.println("Tamano? (mxm)");
-                    m = getValidInput(5,7);
-                    //scan.nextLine();
-                    System.out.println("Cantidad de autitos (n)?"); 
-                    n = getValidInput(3,12);
-                    generateRandomTable(m, n);
-                    displayGameBoard();
-                    //code to print out list of players
+            switch (setupOption) {
+                case 'a':// user input to create table
+                    createPlayer();
                     break;
                 case 'b':
-                    // Use a predefined table
-                    //usePredefinedTable();
-                    System.out.println("generate a table based on saved params");
-                    //displayGameBoard(); //print the table
-                    break;
-                case 'c':
-                    //crearPersona();
-                    // Generate a random table
-                    Random rand = new Random();
-                    m = rand.nextInt(5,7);
-                    n = rand.nextInt(3,12);
-                    
-                    generateRandomTable(m, n);
+                    // Create your own table
+                    System.out.println("Ingrese el tamaño del tablero (entre 5x5 y 7x7):");
+                    m = getValidInput(5, 7); // Validar el tamaño del tablero
+                    System.out.println("Ingrese la cantidad de autos (entre 3 y 12):");
+                    n = getValidInput(3, 12); // Validar la cantidad de autos
+
+                    board = new String[m][m]; // Inicializa el tablero con el tamaño seleccionado
+                    for (int i = 0; i < n; i++) {
+                        System.out.println("Ingrese la posición y dirección del auto " + (i + 1) + " (formato A12 2):");
+                        String input = scan.nextLine();
+                        placeCar(input);
+                    }
                     displayGameBoard();
                     break;
+                case 'c':
+                    // choose two different players from the list of players available
+                    // !!Have code to error if there are no players input into the list
+                    System.out.println("Eligir su tablero:");
+                    System.out.println("1) Tablero Al Azar");
+                    System.out.println("2) Tablero Propio");
+                    System.out.println("3) Tablero Predefinido");
+
+                    int gameOption = scan.nextInt();
+                    scan.nextLine();
+
+                    switch (gameOption) {
+                        case '1':// al azar
+                            m = random.nextInt(5, 7);
+                            n = random.nextInt(3, 12);
+                            // generate random car positions
+                            generateRandomTable(m, n);
+                            displayGameBoard();
+                            break;
+                        case '2': // tablero propio
+                            // load previously entered board size(m), num of cars(n), car positions.
+                            // build board using this saved data
+                            // !!Have code to error if there is no propio table input in the system
+                            break;
+                        case '3':// tablero predefinido
+                            // load already made table coords?
+                            // loadGameDataFromFile("Test/predefinedTable.txt");?
+                            playPredefinedGame();
+                            break;
+                        default:
+                            System.out.println("Opcion invalido, saliendo del juego.");
+                            System.exit(1);
+                    }
                 case 'd':
+                    ranking.sortByPoints();
+                    break;
+                case 'e':
                     System.out.println("Saliendo del juego.");
                     System.exit(1);
                 default:
@@ -98,46 +111,68 @@ public class AutitosChocadores
                     System.exit(1);
             }
 
-        }else{
+        } else {
             System.out.println("Opcion invalido, saliendo del juego.");
         }
     }
-    
-    private void generateRandomTable(int numRowsCols, int numCars) 
-    {
+
+    private void playPredefinedGame() {
+
+    }
+
+    private void placeCar(String input) {
+        try {
+            String[] parts = input.split(" ");
+            String position = parts[0];
+            int direction = Integer.parseInt(parts[1]);
+
+            int row = position.charAt(0) - 'A';
+            int col = Integer.parseInt(position.substring(1)) - 1;
+
+            if (row >= 0 && row < m && col >= 0 && col < m) {
+                Autito newCar = new Autito(/* You might need to calculate the actual position index */);
+                newCar.setOrientation(direction); // Set the orientation based on user input
+                board[row][col] = newCar; // Assume the board can store Autito objects or representations
+            } else {
+                System.out.println("Posición fuera de límites, intente de nuevo.");
+                i--; // Reintenta si la posición es inválida
+            }
+        } catch (Exception e) {
+            System.out.println("Error en la entrada. Formato correcto: A12 2");
+            i--; // Reintenta si ocurre un error
+        }
+    }
+
+    private void generateRandomTable(int numRowsCols, int numCars) {
         // generate a random table based on the rows/cols
-        m = numRowsCols;//board is square so we can use n here in both cases
+        m = numRowsCols;// board is square so we can use n here in both cases
         n = numCars;
-        
-        /* TODO:
-            1. generate random pos on the board
-            2. place a random car position there
-            3. verify theres a possible move, if not redo process?
-        */
-        
+
+        /*
+         * TODO:
+         * 1. generate random pos on the board
+         * 2. place a random car position there
+         * 3. verify theres a possible move, if not redo process?
+         */
+
         board = new String[m][m];
-        
-        for (int i = 0; i < m; i++) 
-	{
-            for (int j = 0; j < m; j++) 
-            {
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
                 board[i][j] = getRandomSymbol() + "" + getRandomColor();
             }
         }
     }
-    
-    private void displayGameBoard() 
-    {
-  
+
+    private void displayGameBoard() {
+
         printColumnNumbers(); // Print column numbers at the top
 
-        for (int i = 0; i < m; i++) 
-	{
+        for (int i = 0; i < m; i++) {
             printRowBorder(); // Print the row border
-            System.out.print((i + 1) + " |"); // Print the row number
+            System.out.print((char) ('A' + i) + " |"); // Print the row LETTER (a,b,c,d)
 
-            for (int j = 0; j < m; j++) 
-            {
+            for (int j = 0; j < m; j++) {
                 String cell = board[i][j];
                 printColoredSymbol(cell);
             }
@@ -148,22 +183,30 @@ public class AutitosChocadores
         printRowBorder(); // Print the bottom row border
         System.out.println(); // Add an extra line for clarity
     }
-    
-    private void printColoredSymbol(String cell) 
-    {
-        //TODO: make it print multiple lines in the cell for the car?
-        String[] parts = cell.split(""); 
-        String colorCode = getColorCode(parts[1]);
-        System.out.print("  " + colorCode + parts[0] + "\u001B[0m"); //default color
-        System.out.print("   |"); 
+
+    private void displayRandomCar() {
+        char[][] randomAutito = getRandomCar();
+        for (char[] row : randomAutito) {
+            for (char c : row) {
+                System.out.print(c);
+            }
+            System.out.println();
+        }
     }
-    
-    private String getColorCode(String symbol) 
-    {
+
+    private void printColoredSymbol(String cell) {
+        // TODO: make it print multiple lines in the cell for the car?
+        String[] parts = cell.split("");
+        String colorCode = getColorCode(parts[1]);
+        System.out.print("  " + colorCode + parts[0] + "\u001B[0m"); // default color
+        System.out.print("   |");
+    }
+
+    private String getColorCode(String symbol) {
         // Return ANSI escape code for color based on the symbol
-        //TODO: make the headlights yellow, \x1b[43m
-        //https://talyian.github.io/ansicolors/
-        
+        // TODO: make the headlights yellow, \x1b[43m
+        // https://talyian.github.io/ansicolors/
+
         switch (symbol) {
             case "R":
                 return "\u001B[31m"; // Red
@@ -173,84 +216,70 @@ public class AutitosChocadores
                 return ""; // No color (default)
         }
     }
-    
-    private char getRandomSymbol() 
-    {
+
+    private char getRandomSymbol() {
         // Return a random symbol as a car direction placeholder ('^', 'v', '<-', '->')
         // TODO: make multiple lines // specify headlights/rest of car
-        char[] symbols = {'^', 'v', '<', '>'};
-        Random random = new Random();
+        char[] symbols = { '^', 'v', '<', '>' };
         return symbols[random.nextInt(symbols.length)];
     }
 
-    private char[][] getRandomAutito() 
-    {
-        Autito autito = new autito;
-        char[][] autitos = {getAutitoUp, getAutitoDown, getAutitoLeft, getAutitoRight};
-        Random random = new Random();
-        return autito[random.nextInt[][](autitos.length)];
+    private char[][] getRandomCar() {
+        Autito autito = new Autito(0); // Assumes position is utilized somehow
+        char[][][] autitos = { autito.getCarUp(), autito.getCarDown(), autito.getCarLeft(), autito.getCarRight() }; 
+        return autitos[random.nextInt(autitos.length)];
     }
-    
-    private char getRandomColor() 
-    {
+
+    private char getRandomColor() {
         // Return a random color for the car (red or blue)
-        Random random = new Random();
         return random.nextBoolean() ? 'R' : 'A';
     }
 
-    private void printColumnNumbers() 
-    {
-        System.out.print("       "); //whitespace before nums
-        for (int j = 0; j < m; j++) {
-            System.out.printf("%-7d", (j + 1)); //pads nums with spaces tomake them at least 4 chars wide
-        }
-        System.out.println();
-    }
-    
-    private void printRowBorder() 
-    {
-        System.out.print("  +"); //beginning
-        for (int j = 0; j < m; j++) {
-            System.out.print("------+"); //car is 4x2 spaces, make it 6 leaving 2
-        }
-        System.out.println();
-    }
-    
-    public int getValidInput(int min, int max)
-    {
+    public int getValidInput(int min, int max) {
         int input = 0;
-        while (input == 0)
-        {
-            try
-            {
+        while (input == 0) {
+            try {
                 int value = scan.nextInt();
                 scan.nextLine();
-                if (value >= min && value <= max)
-                {
+                if (value >= min && value <= max) {
                     input = value;
-                }else
-                {
+                } else {
                     System.out.println("invalid input");
                 }
-            }catch (InputMismatchException e)
-            {
+            } catch (InputMismatchException e) {
                 System.out.println("invalid input (inputmismatchexception)");
                 scan.nextLine();
             }
         }
         return input;
-    }  
-        
-    public static Jugadores crearPersona()
-    {
+    }
+
+    private void printColumnNumbers() {
+        System.out.print("       "); // whitespace before nums
+        for (int j = 0; j < m; j++) {
+            System.out.printf("%-7d", (j + 1)); // pads nums with spaces tomake them at least 4 chars wide
+        }
+        System.out.println();
+    }
+
+    private void printRowBorder() {
+        System.out.print("  +"); // beginning
+        for (int j = 0; j < m; j++) {
+            System.out.print("------+"); // car is 4x2 spaces, make it 6 leaving 2
+        }
+        System.out.println();
+    }
+
+    public static Jugadores createPlayer() {
         System.out.print("Ingrese su nombre");
-        String nombre = scan.nextLine();
+        String nameInput = scan.nextLine();
         System.out.print("Ingrese su edad");
-        int edad = scan.nextInt();
+        int ageInput = scan.nextInt();
         scan.nextLine();
         System.out.print("Ingrese el alias: ");
-        String alias = scan.nextLine();
-        Jugadores unaPersona = new Jugadores(nombre,edad, alias, 0, 0, 0, 0, 0);
-        return unaPersona;
+        String aliasInput = scan.nextLine();
+        Jugadores newPlayer = new Jugadores(nameInput, ageInput, aliasInput, 0, 0, 0, 0, 0);
+        return newPlayer;
     }
+
 }
