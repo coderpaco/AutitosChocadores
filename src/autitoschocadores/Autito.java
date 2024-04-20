@@ -3,24 +3,28 @@ package autitoschocadores;
 public class Autito { // It's better to start class names with a capital letter
     private int carPosition;
     private char[][] carUp = {
-            { 'o', 'o' },
-            { '*', '*' },
-            { '*', '*' },
-            { '*', '*' }
+            {'|','o', 'o','|'},
+            {'|','*', '*','|'},
+            {'|','*', '*','|'},
+            {'|','*', '*','|'}
     };
     private char[][] carDown = {
-            { '*', '*' },
-            { '*', '*' },
-            { '*', '*' },
-            { 'o', 'o' }
+            {'|', '*', '*','|'},
+            {'|','*', '*','|'},
+            {'|','*', '*','|'},
+            {'|','o', 'o','|'}
     };
     private char[][] carLeft = {
-            { 'o', '*', '*', '*' },
-            { 'o', '*', '*', '*' }
+            {'|', " "," "," ", " ","|"},
+            {'|','o', '*', '*', '*','|'},
+            {'|','o', '*', '*', '*','|'},
+            {'|', " "," "," ", " ","|"},
     };
     private char[][] carRight = {
-            { '*', '*', '*', 'o' },
-            { '*', '*', '*', 'o' }
+            {'|', " "," "," ", " ","|"},
+            {'|','*', '*', '*', 'o','|'},
+            {'|','*', '*', '*', 'o','|'},
+            {'|', " "," "," ", " ","|"},
     };
 
     // Assuming Tablero is your board class, it might be better not used as an

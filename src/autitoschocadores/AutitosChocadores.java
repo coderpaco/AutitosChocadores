@@ -129,10 +129,13 @@ public class AutitosChocadores {
             int row = position.charAt(0) - 'A';
             int col = Integer.parseInt(position.substring(1)) - 1;
 
+            // Check if the calculated indices are within the bounds of the board
             if (row >= 0 && row < m && col >= 0 && col < m) {
-                Autito newCar = new Autito(/* You might need to calculate the actual position index */);
-                newCar.setOrientation(direction); // Set the orientation based on user input
-                board[row][col] = newCar; // Assume the board can store Autito objects or representations
+            // Create a new Autito object with calculated position and set orientation
+            Autito newCar = new Autito(row * m + col);  // Convert row and column to a single index (assuming linear board representation)
+            newCar.setOrientation(direction);  // Set the orientation based on user input
+            board[row][col] = newCar;  // Place the Autito object on the board
+
             } else {
                 System.out.println("Posición fuera de límites, intente de nuevo.");
                 i--; // Reintenta si la posición es inválida
