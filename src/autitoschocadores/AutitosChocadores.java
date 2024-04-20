@@ -31,10 +31,10 @@ public class AutitosChocadores {
 
     private void initializeGameBoard() {
         Ranking ranking = new Ranking(new ArrayList<>());
-
+        
         System.out.println("Bienvenidos! Te gustaria jugar Autitos Chocadores? (si/no)");
         String choice = scan.nextLine().toLowerCase();
-
+        
         while (choice.equals("si")) {
             // Ask the player for the game setup option
             System.out.println("Eligir un opcion:");
@@ -96,7 +96,7 @@ public class AutitosChocadores {
                             break;
                         default:
                             System.out.println("Opcion invalido, saliendo del juego.");
-                            System.exit(1);
+                            System.exit(0);
                     }
                 case 'd':
                     ranking.sortByPoints();
@@ -104,10 +104,10 @@ public class AutitosChocadores {
                     break;
                 case 'e':
                     System.out.println("Saliendo del juego.");
-                    System.exit(1);
+                    System.exit(0);
                 default:
                     System.out.println("Opcion invalido, saliendo del juego.");
-                    System.exit(1);
+                    System.exit(0);
             }
             System.out.println("Desea volver al menu principal? (si/no)");
             choice = scan.nextLine().toLowerCase();
@@ -245,10 +245,10 @@ public class AutitosChocadores {
                 if (value >= min && value <= max) {
                     input = value;
                 } else {
-                    System.out.println("invalid input");
+                    System.out.println("Error: Input out of bounds");
                 }
             } catch (InputMismatchException e) {
-                System.out.println("invalid input (inputmismatchexception)");
+                System.out.println("Error: Invalid Input (InputMismatchException)");
                 scan.nextLine();
             }
         }
@@ -271,16 +271,15 @@ public class AutitosChocadores {
         System.out.println();
     }
 
-    public static Jugadores createPlayer() {
-        System.out.println("Ingrese su nombre");
-        String nameInput = scan.nextLine();
-        System.out.println("Ingrese su edad");
-        int ageInput = scan.nextInt();
-        scan.nextLine();
-        System.out.println("Ingrese el alias: ");
-        String aliasInput = scan.nextLine();
-        Jugadores newPlayer = new Jugadores(nameInput, ageInput, aliasInput, 0, 0, 0, 0, 0);
-        return newPlayer;
-    }
+public Jugadores createPlayer() {
+    System.out.println("Ingrese su nombre:");
+    String nameInput = scan.nextLine();
+    System.out.println("Ingrese su edad: (1-100)");
+    int ageInput = getValidInput(1,100);
+    System.out.println("Ingrese el alias:");
+    String aliasInput = scan.nextLine();
+    Jugadores newPlayer = new Jugadores(nameInput, ageInput, aliasInput, 0, 0, 0, 0, 0);
+    return newPlayer;
+}
 
 }
