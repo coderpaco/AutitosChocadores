@@ -14,9 +14,20 @@ public class Ranking {
     }
 
     // Sort players by points
-    public void sortByPoints() {
-        Collections.sort(players, Comparator.comparingInt(Jugadores::getPoints).reversed());
-    }
+public void sortByPoints() {
+    Collections.sort(players, (p1, p2) -> {
+        // Compare by points in descending order
+        int pointsComparison = Integer.compare(p2.getPoints(), p1.getPoints());
+        
+        // If points are the same, compare by alias in ascending order
+        if (pointsComparison == 0) {
+            return p1.getAlias().compareTo(p2.getAlias());
+        }
+        
+        return pointsComparison;
+    });
+}
+
 
     public void displayRanking() {
         System.out.println("+------------+----------+--------+---------+----------+---------+");

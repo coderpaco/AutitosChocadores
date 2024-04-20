@@ -266,18 +266,18 @@ public class AutitosChocadores {
     private void printRowBorder() {
         System.out.print("  +"); // beginning
         for (int j = 0; j < m; j++) {
-            System.out.print("------+"); // car is 4x2 spaces, make it 6 leaving 2
+            System.out.print("----+"); // car can be 2x4 or 4x2 spaces, should make each cell 4 wide
         }
         System.out.println();
     }
 
     public static Jugadores createPlayer() {
-        System.out.print("Ingrese su nombre");
+        System.out.println("Ingrese su nombre");
         String nameInput = scan.nextLine();
-        System.out.print("Ingrese su edad");
+        System.out.println("Ingrese su edad");
         int ageInput = scan.nextInt();
         scan.nextLine();
-        System.out.print("Ingrese el alias: ");
+        System.out.println("Ingrese el alias: ");
         String aliasInput = scan.nextLine();
         Jugadores newPlayer = new Jugadores(nameInput, ageInput, aliasInput, 0, 0, 0, 0, 0);
         return newPlayer;
