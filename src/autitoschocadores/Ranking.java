@@ -5,8 +5,8 @@ import java.util.*;
 public class Ranking {
     private ArrayList<Jugadores> players;
 
-    public Ranking() {
-        players = new ArrayList<>();
+    public Ranking(ArrayList<Jugadores> players) {
+        this.players = players;
     }
 
     public void addPlayer(Jugadores player) {
@@ -18,7 +18,7 @@ public class Ranking {
         Collections.sort(players, Comparator.comparingInt(Jugadores::getPoints).reversed());
     }
 
-    private void displayRanking(List<Jugadores> players) {
+    public void displayRanking() {
         System.out.println("+------------+----------+--------+---------+----------+---------+");
         System.out.println("| Alias      | Games    | Wins   | Losses  | Forfeits | Points  |");
         System.out.println("+------------+----------+--------+---------+----------+---------+");

@@ -1,6 +1,5 @@
 package autitoschocadores;
 
-import java.io.*;
 import java.util.*;
 /*TODO:
     1. change row numbers to print letters (done)
@@ -22,7 +21,6 @@ public class AutitosChocadores {
     public static int propioN = 0;
 
     public static void main(String[] args) {
-        Ranking ranking = new Ranking();
         AutitosChocadores game = new AutitosChocadores();// select option (al azar, propio, predefinido)
         // game.startGame();
     }
@@ -32,12 +30,12 @@ public class AutitosChocadores {
     }
 
     private void initializeGameBoard() {
-        Ranking ranking = new Ranking();
+        Ranking ranking = new Ranking(new ArrayList<>());
 
         System.out.println("Bienvenidos! Te gustaria jugar Autitos Chocadores? (si/no)");
         String choice = scan.nextLine().toLowerCase();
 
-        if (choice.equals("si")) {
+        while (choice.equals("si")) {
             // Ask the player for the game setup option
             System.out.println("Eligir un opcion:");
             System.out.println("a) Registrar un jugador");
@@ -50,7 +48,7 @@ public class AutitosChocadores {
 
             switch (setupOption) {
                 case 'a':// user input to create table
-                    createPlayer();
+                    ranking.addPlayer(createPlayer());
                     break;
                 case 'b':
                     // Create your own table
@@ -102,6 +100,7 @@ public class AutitosChocadores {
                     }
                 case 'd':
                     ranking.sortByPoints();
+                    ranking.displayRanking(); // Display the sorted ranking
                     break;
                 case 'e':
                     System.out.println("Saliendo del juego.");
@@ -110,9 +109,8 @@ public class AutitosChocadores {
                     System.out.println("Opcion invalido, saliendo del juego.");
                     System.exit(1);
             }
-
-        } else {
-            System.out.println("Opcion invalido, saliendo del juego.");
+            System.out.println("Desea volver al menu principal? (si/no)");
+            choice = scan.nextLine().toLowerCase();
         }
     }
 
