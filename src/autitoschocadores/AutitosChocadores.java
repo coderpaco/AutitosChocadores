@@ -13,7 +13,8 @@ public class AutitosChocadores {
     public static Scanner scan = new Scanner(System.in);
     public static Random random = new Random();
 
-    public static String[][] board;
+    public static char[][] board;
+    
     public static int m = 0; // board size (mxm)
     public static int n = 0; // amt of cars (x=n;)
 
@@ -22,7 +23,7 @@ public class AutitosChocadores {
 
     public static void main(String[] args) {
         AutitosChocadores game = new AutitosChocadores();// select option (al azar, propio, predefinido)
-        // game.startGame();
+        // game.startGame();println
     }
 
     public AutitosChocadores() {
@@ -31,6 +32,7 @@ public class AutitosChocadores {
 
     private void initializeGameBoard() {
         Ranking ranking = new Ranking(new ArrayList<>());
+       
         
         System.out.println("Bienvenidos! Te gustaria jugar Autitos Chocadores? (si/no)");
         String choice = scan.nextLine().toLowerCase();
@@ -52,18 +54,7 @@ public class AutitosChocadores {
                     break;
                 case 'b':
                     // Create your own table
-                    System.out.println("Ingrese el tamaño del tablero (entre 5x5 y 7x7):");
-                    m = getValidInput(5, 7); // Validar el tamaño del tablero
-                    System.out.println("Ingrese la cantidad de autos (entre 3 y 12):");
-                    n = getValidInput(3, 12); // Validar la cantidad de autos
-
-                    board = new String[m][m]; // Inicializa el tablero con el tamaño seleccionado
-                    for (int i = 0; i < n; i++) {
-                        System.out.println("Ingrese la posición y dirección del auto " + (i + 1) + " (formato A12 2):");
-                        String input = scan.nextLine();
-                        placeCar(input);
-                    }
-                    displayGameBoard();
+                    configureCustomBoard();
                     break;
                 case 'c':
                     // choose two different players from the list of players available
@@ -77,21 +68,30 @@ public class AutitosChocadores {
                     scan.nextLine();
 
                     switch (gameOption) {
-                        case '1':// al azar
+                        case 1:// al azar
                             m = random.nextInt(5, 7);
                             n = random.nextInt(3, 12);
                             // generate random car positions
                             generateRandomTable(m, n);
                             displayGameBoard();
                             break;
-                        case '2': // tablero propio
-                            // load previously entered board size(m), num of cars(n), car positions.
-                            // build board using this saved data
-                            // !!Have code to error if there is no propio table input in the system
-                            break;
-                        case '3':// tablero predefinido
+                        case 2: 
+                        /*if (customGameConfig != null) {
+                            m = customGameConfig.getBoardSize();
+                            n = customGameConfig.getNumCars();
+                            board = new String[m][m];
+                            for (String carPosition : customGameConfig.getCarPositions()) {
+                                placeCar(carPosition);
+                            }
+                            displayGameBoard();
+                        } else {
+                            System.out.println("Error: Custom board not configured.");
+                        }*/
+                        configureCustomBoard();
+                        break;
+                        case 3:// tablero predefinido
                             // load already made table coords?
-                            // loadGameDataFromFile("Test/predefinedTable.txt");?
+                            // loadGameDataFromFile("Test/predefinedTable.txt");
                             playPredefinedGame();
                             break;
                         default:
@@ -115,7 +115,21 @@ public class AutitosChocadores {
     }
 
     private void playPredefinedGame() {
+        m = 5;
+        n = 8;
+        board = new char[m][m]; // Initialize the game board
 
+        // Place the predefined cars on the board
+        placeCar("A1 1"); // Car facing down
+        placeCar("A2 3"); // Car facing left
+        placeCar("A4 1"); // Car facing down
+        placeCar("A5 2"); // Car facing up
+        placeCar("D5 1"); // Car facing down
+        placeCar("E1 2"); // Car facing up
+        placeCar("E4 4"); // Car facing right
+        placeCar("E5 3"); // Car facing left
+    
+        displayGameBoard(); // Display the game board with predefined cars
     }
 
     private void placeCar(String input) {
@@ -136,11 +150,9 @@ public class AutitosChocadores {
 
             } else {
                 System.out.println("Posición fuera de límites, intente de nuevo.");
-                i--; // Reintenta si la posición es inválida
             }
         } catch (Exception e) {
             System.out.println("Error en la entrada. Formato correcto: A12 2");
-            i--; // Reintenta si ocurre un error
         }
     }
 
@@ -156,11 +168,10 @@ public class AutitosChocadores {
          * 3. verify theres a possible move, if not redo process?
          */
 
-        board = new String[m][m];
-
+         board = new Autito[m][m];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < m; j++) {
-                board[i][j] = getRandomSymbol() + "" + getRandomColor();
+                board[i][j] = getRandomCar() + "" + getRandomColor();
             }
         }
     }
@@ -185,7 +196,7 @@ public class AutitosChocadores {
         System.out.println(); // Add an extra line for clarity
     }
 
-    private void displayRandomCar() {
+/*    private void displayRandomCar() {
         char[][] randomAutito = getRandomCar();
         for (char[] row : randomAutito) {
             for (char c : row) {
@@ -193,11 +204,11 @@ public class AutitosChocadores {
             }
             System.out.println();
         }
-    }
+    }*/
 
     private void printColoredSymbol(String cell) {
         // TODO: make it print multiple lines in the cell for the car?
-        String[] parts = cell.split("");
+        String representation = autito.getRepresentation;
         String colorCode = getColorCode(parts[1]);
         System.out.print("  " + colorCode + parts[0] + "\u001B[0m"); // default color
         System.out.print("   |");
@@ -218,12 +229,12 @@ public class AutitosChocadores {
         }
     }
 
-    private char getRandomSymbol() {
+ /*  private char getRandomSymbol() {
         // Return a random symbol as a car direction placeholder ('^', 'v', '<-', '->')
         // TODO: make multiple lines // specify headlights/rest of car
         char[] symbols = { '^', 'v', '<', '>' };
         return symbols[random.nextInt(symbols.length)];
-    }
+    }*/
 
     private char[][] getRandomCar() {
         Autito autito = new Autito(0); // Assumes position is utilized somehow
@@ -280,6 +291,53 @@ public Jugadores createPlayer() {
     String aliasInput = scan.nextLine();
     Jugadores newPlayer = new Jugadores(nameInput, ageInput, aliasInput, 0, 0, 0, 0, 0);
     return newPlayer;
+}
+private void configureCustomBoard() {
+    System.out.println("Ingrese el tamaño del tablero (entre 5x5 y 7x7):");
+    m = getValidInput(5, 7); // Validar el tamaño del tablero
+    System.out.println("Ingrese la cantidad de autos (entre 3 y 12):");
+    n = getValidInput(3, 12); // Validar la cantidad de autos
+    // Inicializa el tablero con el tamaño seleccionado
+     board = new Autito[m][m];
+
+    String[] carPositions = new String[n];
+        for (int i = 0; i < n; i++) {
+            System.out.println("Ingrese la posición y dirección del auto " + (i + 1) + " (formato A12 2):");
+            carPositions[i] = scan.nextLine();
+            placeCar(carPositions[i]);
+            }
+
+            //Save game configuration
+            customGameConfig = new GameConfiguration(m, n, carPositions);
+            //Display the custom board configuration
+        displayGameBoard();
+    }
+
+
+
+//TO SAVE THE GAME CONFIGURATION
+public class GameConfiguration {
+    private int boardSize;
+    private int numCars;
+    private String[] carPositions;
+
+    public GameConfiguration(int boardSize, int numCars, String[] carPositions) {
+        this.boardSize = boardSize;
+        this.numCars = numCars;
+        this.carPositions = carPositions;
+    }
+
+    public int getBoardSize() {
+        return boardSize;
+    }
+
+    public int getNumCars() {
+        return numCars;
+    }
+
+    public String[] getCarPositions() {
+        return carPositions;
+    }
 }
 
 }
