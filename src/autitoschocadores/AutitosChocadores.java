@@ -56,7 +56,7 @@ public class AutitosChocadores {
                     break;
                 case 'b':
                     // Create your own table
-                    configureCustomBoard();
+                   // configureCustomBoard();
                     break;
                 case 'c':
                     // choose two different players from the list of players available
@@ -74,11 +74,11 @@ public class AutitosChocadores {
                             m = random.nextInt(5, 7);
                             n = random.nextInt(3, 12);
                             // generate random car positions
-                            generateRandomTable(m, n);
+                           // generateRandomTable(m, n);
                             displayGameBoard();
                             break;
                         case 2: 
-                        configureCustomBoard();
+                       // configureCustomBoard();
                         break;
                         case 3:// tablero predefinido
                             // load already made table coords?
