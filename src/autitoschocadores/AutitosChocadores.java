@@ -107,7 +107,7 @@ public class AutitosChocadores {
 
     private void playPredefinedGame() {
         m = 5;
-        n = 8;
+       
        // board = new char[m][m]; // Initialize the game board IM INITIALIZING UP
         board = new Board(m); 
         // Place the predefined cars on the board
@@ -150,36 +150,42 @@ public class AutitosChocadores {
     private void displayGameBoard() {
         printColumnNumbers(); // Print column numbers at the top
     
-        for (int row = 0; row < 4; row++) {
-            printRowBorder(); // Print the row border
-            
-            System.out.print((char) ('A' + row) + " |"); // Print the row LETTER (a,b,c,d)
-    
-            for (int col = 0; col < m; col++) {
-                Autito autito = board.getAutitoAt(row, col);
-                System.out.print(" |");
-                if (autito != null) {
-                    char[][] carRepresentation = autito.getCurrentOrientation();
-                    for (int i = 0; i < carRepresentation.length; i++) {
-                        for (int j = 0; j < carRepresentation[i].length; j++) {
-                            System.out.print(carRepresentation[i][j]);
-                        }
-                        System.out.println();
-                    }
-                } else {
-                    // No cars, print empty spaces
-                    System.out.print("      ");
+        for (int row = 0; row < m; row++) {
+            printRowBorder();
+
+            for (int i = 0; i < 4; i++) { // Loop for each row within a cell
+                // Print the row border
+                if (i == 0) {
+                    System.out.print((char) ('A' + row)); // Print the row LETTER (a,b,c,d) only for the first cell in a row
                 }
-                System.out.print("|");
-            }
+                System.out.print(" |");
     
-            System.out.println(); // Move to the next line for the next row
+                for (int col = 0; col < m; col++) {
+                    Autito autito = board.getAutitoAt(row, col);
+                    
+                    if (autito != null) {
+                        char[][] carRepresentation = autito.getCurrentOrientation();
+                        for (int j = 0; j < 4; j++) { // Loop for each row in a car representation
+                            for (int k = 0; k < 4; k++) { // Loop for each column in a row of car representation
+                                System.out.print(carRepresentation[i][k]);
+                            }
+                            // Add whitespace padding to make each cell the same size
+                            System.out.print(" ");
+                        }
+                    } else {
+                        // No cars, print empty spaces
+                        System.out.print("            ");
+                    }
+                    System.out.print("|");
+                }
+                System.out.println(); // Move to the next line for the next row
+            }
         }
     
         printRowBorder(); // Print the bottom row border
         System.out.println(); // Add an extra line for clarity
     }
- 
+    
     public int getValidInput(int min, int max) {
         int input = 0;
         while (input == 0) {
@@ -202,7 +208,7 @@ public class AutitosChocadores {
     private void printColumnNumbers() {
         System.out.print("         "); // whitespace before nums
         for (int j = 0; j < m; j++) {
-            System.out.printf("%7d", (j + 1)); // pads nums with spaces tomake them at least 4 chars wide
+            System.out.printf("%6d", (j + 1)); // pads nums with spaces tomake them at least 4 chars wide
         }
         System.out.println();
     }
