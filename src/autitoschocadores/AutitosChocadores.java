@@ -1,12 +1,7 @@
 package autitoschocadores;
 
 import java.util.*;
-/*TODO:
-    1. change row numbers to print letters (done)
-    2. when a move input is made (A12, where A is row), be able to compute 
-            A= row 1, B= row 2, etc.
-    3. board is mxm (5x5) but is reallt 20x20 (5x4+5x4) because each cell is 4x4 to accomodate car up/down/left/right
-*/
+// version:4/23/2024 @ 6:53
 
 public class AutitosChocadores {
 
