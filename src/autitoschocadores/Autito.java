@@ -2,30 +2,36 @@ package autitoschocadores;
 
 public class Autito { // It's better to start class names with a capital letter
     private int carPosition;
-    private char[][] carUp = {
+    private final char[][] carUp = {
             {' ', 'o', 'o', ' '},
             {' ', '*', '*', ' '},
             {' ', '*', '*', ' '},
             {' ', '*', '*', ' '},
     };
-    private char[][] carDown = {
+    private final char[][] carDown = {
             {' ', '*', '*', ' '},
             {' ', '*', '*', ' '},
             {' ', '*', '*', ' '},
             {' ', 'o', 'o', ' '},
     };
-    private char[][] carLeft = {
+    private final char[][] carLeft = {
             {' ', ' ', ' ', ' '},
             {'o', '*', '*', '*'},
             {'o', '*', '*', '*'},
             {' ', ' ', ' ', ' '},
     };
-    private char[][] carRight = {
+    private final char[][] carRight = {
             {' ', ' ', ' ', ' '},
             {'*', '*', '*', 'o'},
             {'*', '*', '*', 'o'},
             {' ', ' ', ' ', ' '},
     };
+    private final char[][] emptyCell = {
+            {' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' '},
+            {' ', ' ', ' ', ' '}
+};
 
     // Assuming Tablero is your board class, it might be better not used as an
     // inherited class unless specifically needed.
@@ -76,6 +82,9 @@ public class Autito { // It's better to start class names with a capital letter
                 break;
             case 3: // Left
                 currentOrientation = carLeft;
+                break;
+            case 4: // empty
+                currentOrientation = emptyCell;
                 break;
             default:
                 throw new IllegalArgumentException("Invalid direction");

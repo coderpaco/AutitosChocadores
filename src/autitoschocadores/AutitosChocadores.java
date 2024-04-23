@@ -111,13 +111,13 @@ public class AutitosChocadores {
        // board = new char[m][m]; // Initialize the game board IM INITIALIZING UP
         board = new Board(m); 
         // Place the predefined cars on the board
-        placeCar("A1 1"); // Car facing down
+        placeCar("A1 2"); // Car facing down
         placeCar("A2 3"); // Car facing left
-        placeCar("A4 1"); // Car facing down
-        placeCar("A5 2"); // Car facing up
-        placeCar("D5 1"); // Car facing down
-        placeCar("E1 2"); // Car facing up
-        placeCar("E4 4"); // Car facing right
+        placeCar("A4 2"); // Car facing down
+        placeCar("A5 0"); // Car facing up
+        placeCar("D5 2"); // Car facing down
+        placeCar("E1 0"); // Car facing up
+        placeCar("E4 1"); // Car facing right
         placeCar("E5 3"); // Car facing left
     
         displayGameBoard(); // Display the game board with predefined cars
@@ -158,6 +158,9 @@ public class AutitosChocadores {
                 if (i == 0) {
                     System.out.print((char) ('A' + row)); // Print the row LETTER (a,b,c,d) only for the first cell in a row
                 }
+                if(i != 0){
+                    System.out.print((char) (' ')); // Print the row LETTER (a,b,c,d) only for the first cell in a row
+                }
                 System.out.print(" |");
     
                 for (int col = 0; col < m; col++) {
@@ -165,16 +168,16 @@ public class AutitosChocadores {
                     
                     if (autito != null) {
                         char[][] carRepresentation = autito.getCurrentOrientation();
-                        for (int j = 0; j < 4; j++) { // Loop for each row in a car representation
+                        for (int j = 0; j < 1; j++) { // Loop for each row in a car representation
                             for (int k = 0; k < 4; k++) { // Loop for each column in a row of car representation
                                 System.out.print(carRepresentation[i][k]);
                             }
                             // Add whitespace padding to make each cell the same size
-                            System.out.print(" ");
+                            System.out.print("");
                         }
                     } else {
                         // No cars, print empty spaces
-                        System.out.print("            ");
+                        System.out.print("    ");
                     }
                     System.out.print("|");
                 }
@@ -206,9 +209,9 @@ public class AutitosChocadores {
     }
 
     private void printColumnNumbers() {
-        System.out.print("         "); // whitespace before nums
+        System.out.print(" "); // whitespace before nums
         for (int j = 0; j < m; j++) {
-            System.out.printf("%6d", (j + 1)); // pads nums with spaces tomake them at least 4 chars wide
+            System.out.printf("%5d", (j + 1)); // pads nums with spaces tomake them at least 4 chars wide
         }
         System.out.println();
     }
@@ -216,7 +219,7 @@ public class AutitosChocadores {
     private void printRowBorder() {
         System.out.print("  +"); // beginning
         for (int j = 0; j < m; j++) {
-            System.out.print(" - - - - +"); // car can be 2x4 or 4x2 spaces, should make each cell 4 wide
+            System.out.print("----+"); // car can be 2x4 or 4x2 spaces, should make each cell 4 wide
         }
         System.out.println();
     }
