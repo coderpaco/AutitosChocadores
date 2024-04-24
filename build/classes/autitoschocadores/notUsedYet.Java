@@ -49,53 +49,7 @@ private char getRandomColor() {
     return random.nextBoolean() ? 'R' : 'A';
 }
 
-private void configureCustomBoard() {
-    System.out.println("Ingrese el tamaño del tablero (entre 5x5 y 7x7):");
-    m = getValidInput(5, 7); // Validar el tamaño del tablero
-    System.out.println("Ingrese la cantidad de autos (entre 3 y 12):");
-    n = getValidInput(3, 12); // Validar la cantidad de autos
-    // Inicializa el tablero con el tamaño seleccionado
-     board = new Autito[m][m];
 
-  //  String[] carPositions = new String[n];
-        for (int i = 0; i < n; i++) {
-            System.out.println("Ingrese la posición y dirección del auto " + (i + 1) + " (formato A12 2):");
-            carPositions[i] = scanner.nextLine();
-            placeCar(carPositions[i]);
-            }
-
-            //Save game configuration
-            customGameConfig = new GameConfiguration(m, n, carPositions);
-            //Display the custom board configuration
-        displayGameBoard();
-    }
-
-
-
-//TO SAVE THE GAME CONFIGURATION
-public class GameConfiguration {
-    private int boardSize;
-    private int numCars;
-    private String[] carPositions;
-
-    public GameConfiguration(int boardSize, int numCars, String[] carPositions) {
-        this.boardSize = boardSize;
-        this.numCars = numCars;
-        this.carPositions = carPositions;
-    }
-
-    public int getBoardSize() {
-        return boardSize;
-    }
-
-    public int getNumCars() {
-        return numCars;
-    }
-
-    public String[] getCarPositions() {
-        return carPositions;
-    }
-}
 
 private void generateRandomTable(int numRowsCols, int numCars) {
     // generate a random table based on the rows/cols

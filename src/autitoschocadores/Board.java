@@ -1,6 +1,6 @@
 package autitoschocadores;
 
-import java.util.*;
+//import java.util.*;
 
 public class Board {
     private Autito[][] board;

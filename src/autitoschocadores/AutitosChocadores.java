@@ -51,7 +51,7 @@ public class AutitosChocadores {
                     break;
                 case 'b':
                     // Create your own table
-                   // configureCustomBoard();
+                    configureCustomBoard();
                     break;
                 case 'c':
                     // choose two different players from the list of players available
@@ -83,6 +83,7 @@ public class AutitosChocadores {
                         default:
                             System.out.println("Opcion invalido, saliendo del juego.");
                             System.exit(0);
+                            break;
                     }
                 case 'd':
                     ranking.sortByPoints();
@@ -228,5 +229,56 @@ public Jugadores createPlayer() {
     String aliasInput = scanner.nextLine();
     Jugadores newPlayer = new Jugadores(nameInput, ageInput, aliasInput, 0, 0, 0, 0, 0);
     return newPlayer;
-}
+
+    
+    
+    }
+
+    private void configureCustomBoard() {
+        System.out.println("Ingrese el tamaño del tablero (entre 5x5 y 7x7):");
+        m = getValidInput(5, 7); // Validar el tamaño del tablero
+        System.out.println("Ingrese la cantidad de autos (entre 3 y 12):");
+        n = getValidInput(3, 12); // Validar la cantidad de autos
+        // Inicializa el tablero con el tamaño seleccionado
+         board = new Board(m);
+    
+      String[] carPositions = new String[n];
+            for (int i = 0; i < n; i++) {
+                System.out.println("Ingrese la posición y dirección del auto " + (i + 1) + " (formato A12 2):");//IT NEEDS AN EXCEPTION
+                carPositions[i] = scanner.nextLine();
+                placeCar(carPositions[i]);
+                }
+    
+                //Save game configuration
+                new GameConfiguration(m, n, carPositions);
+                //Display the custom board configuration
+            displayGameBoard();
+        }
+    
+    
+    
+    //TO SAVE THE GAME CONFIGURATION
+    public class GameConfiguration {
+        private int boardSize;
+        private int numCars;
+        private String[] carPositions;
+    
+        public GameConfiguration(int boardSize, int numCars, String[] carPositions) {
+            this.boardSize = boardSize;
+            this.numCars = numCars;
+            this.carPositions = carPositions;
+        }
+    
+        public int getBoardSize() {
+            return boardSize;
+        }
+    
+        public int getNumCars() {
+            return numCars;
+        }
+    
+        public String[] getCarPositions() {
+            return carPositions;
+        }
+    }
 }
