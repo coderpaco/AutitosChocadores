@@ -247,7 +247,7 @@ public Jugadores createPlayer() {
                 System.out.println("Ingrese la posición y dirección del auto " + (i + 1) + " (formato A12 2):");//IT NEEDS AN EXCEPTION
                 carPositions[i] = scanner.nextLine();
                 placeCar(carPositions[i]);
-                }
+                } 
     
                 //Save game configuration
                 new GameConfiguration(m, n, carPositions);
