@@ -6,7 +6,7 @@ private void displayRandomCar() {
         }
         System.out.println();
     }
-}*/
+}
 
 private void printColoredSymbol(String cell) {
     // TODO: make it print multiple lines in the cell for the car?
@@ -63,10 +63,37 @@ private void generateRandomTable(int numRowsCols, int numCars) {
      * 3. verify theres a possible move, if not redo process?
      */
 
-     board = new Autito[m][m];
-    for (int i = 0; i < m; i++) {
+     board = new Board(m);
+     for (int i = 0; i < m; i++) {
         for (int j = 0; j < m; j++) {
             board[i][j] = getRandomCar() + "" + getRandomColor();
         }
+    }
+}
+
+private void generateRandomTable(int numRowsCols, int numCars) {
+    // Genera un tablero aleatorio basado en las filas/columnas
+    m = numRowsCols; // El tablero es cuadrado, así que podemos usar 'n' aquí en ambos casos
+    n = numCars;
+
+    // Inicializa el tablero
+    board = new Board(m);
+
+    // Lista para almacenar las posiciones de los autos
+    List<String> carPositions = new ArrayList<>();
+
+    // Genera posiciones aleatorias para los autos
+    while (carPositions.size() < numCars) {
+        int randomRow = random.nextInt(m);
+        int randomCol = random.nextInt(m);
+        String position = Character.toString((char)('A' + randomRow)) + (randomCol + 1);
+        if (!carPositions.contains(position)) {
+            carPositions.add(position);
+        }
+    }
+
+    // Coloca un automóvil en cada posición generada
+    for (String position : carPositions) {
+        placeCar(position);
     }
 }
