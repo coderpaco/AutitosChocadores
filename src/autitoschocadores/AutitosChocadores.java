@@ -5,6 +5,7 @@ import java.util.*;
 
 public class AutitosChocadores 
 {
+    private List<Jugadores> jugadoresList = new ArrayList<>();
 
     public static void main(String[] args) 
     {
@@ -14,6 +15,9 @@ public class AutitosChocadores
     public AutitosChocadores() 
     {
         initializeGameBoard();
+    }
+    public void agregarJugador(Jugadores jugador) {
+        jugadoresList.add(jugador);
     }
 
     public static Scanner scanner = new Scanner(System.in);
@@ -28,6 +32,30 @@ public class AutitosChocadores
     public static int propioN = 0;//SAME
 
    
+
+   // ELEGIR JUGADORES REGISTRADOS PARA JUGAR
+   private Jugadores[] elegirJugadores() {
+    System.out.println("Jugadores registrados:");
+    for (int i = 0; i < jugadoresList.size(); i++) {
+        System.out.println((i + 1) + ". " + jugadoresList.get(i).getAlias());
+    }
+    System.out.println("Elige dos jugadores (números separados por espacios):");
+    int jugador1Index = scanner.nextInt() - 1;
+    int jugador2Index = scanner.nextInt() - 1;
+    scanner.nextLine(); // Consumir la nueva línea
+
+    // Verificar si se han elegido dos jugadores diferentes
+    if (jugador1Index == jugador2Index || jugador1Index < 0 || jugador2Index < 0 || jugador1Index >= jugadoresList.size() || jugador2Index >= jugadoresList.size()) {
+        System.out.println("Error: Debes elegir dos jugadores diferentes de la lista.");
+        return null;
+    }
+
+    Jugadores[] jugadores = new Jugadores[2];
+    jugadores[0] = jugadoresList.get(jugador1Index);
+    jugadores[1] = jugadoresList.get(jugador2Index);
+
+    return jugadores;
+}
 
    
 
@@ -53,7 +81,9 @@ public class AutitosChocadores
             switch (setupOption) 
             {
                 case 'a':// user input to create table
-                    ranking.addPlayer(createPlayer());
+                    Jugadores newPlayer = createPlayer();
+                    ranking.addPlayer(newPlayer); // Add the new player to the ranking
+                    agregarJugador(newPlayer); // Add the new player to the list
                     break;
                 case 'b':
                     // Create your own table
@@ -62,6 +92,16 @@ public class AutitosChocadores
                 case 'c':
                     // choose two different players from the list of players available
                     // !!Have code to error if there are no players input into the list
+                    if (jugadoresList.size() < 2) {
+                        System.out.println("Debes tener al menos dos jugadores registrados para jugar.");
+                        break;
+                    }
+
+                    // Elige dos jugadores para jugar
+                    Jugadores[] jugadores = elegirJugadores();
+                    if (jugadores == null) {
+                        break;
+                    }
                     System.out.println("Eligir su tablero:");
                     System.out.println("1) Tablero Al Azar");
                     System.out.println("2) Tablero Propio");
