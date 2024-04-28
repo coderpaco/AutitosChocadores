@@ -119,11 +119,21 @@ public class AutitosChocadores
                             displayGameBoard();
                             break;
                         case 2: 
-                       // configureCustomBoard();
+                        if (customBoardConfiguration != null) {
+                            m = customBoardConfiguration.getBoardSize();
+                            n = customBoardConfiguration.getNumCars();
+                            for (String position : customBoardConfiguration.getCarPositions()) {
+                                placeCar(position);
+                            }
+                            displayGameBoard();
+                        } else {
+                            System.out.println("Error: No se ha configurado ningún tablero propio.");
+                        }
                         break;
                         case 3:// tablero predefinido
                             // load already made table coords?
                             // loadGameDataFromFile("Test/predefinedTable.txt");
+
                             playPredefinedGame();
                             break;
                         default:
@@ -304,6 +314,7 @@ public Jugadores createPlayer()
     
     
     }
+    private GameConfiguration customBoardConfiguration;
 
     private void configureCustomBoard() {
         System.out.println("Ingrese el tamaño del tablero (entre 5x5 y 7x7):");
@@ -321,7 +332,7 @@ public Jugadores createPlayer()
                 } 
     
                 //Save game configuration
-                new GameConfiguration(m, n, carPositions);
+                customBoardConfiguration =  new GameConfiguration(m, n, carPositions);
                 //Display the custom board configuration
             displayGameBoard();
         }
