@@ -115,7 +115,7 @@ public class AutitosChocadores
                             m = random.nextInt(5, 7);
                             n = random.nextInt(3, 12);
                             // generate random car positions
-                           // generateRandomTable(m, n);
+                            generateRandomTable(m, n);
                             displayGameBoard();
                             break;
                         case 2: 
@@ -325,9 +325,27 @@ public Jugadores createPlayer()
                 //Display the custom board configuration
             displayGameBoard();
         }
-    
-    
-    
+
+
+
+        private void generateRandomTable(int numRowsCols, int numCars) {
+            // Genera un tablero aleatorio basado en las filas/columnas
+            m = numRowsCols; // El tablero es cuadrado, así que podemos usar 'n' aquí en ambos casos
+            n = numCars;
+        
+            // Inicializa el tablero
+            board = new Board(m);
+        
+            // Coloca un automóvil en cada posición generada aleatoriamente
+            for (int i = 0; i < numCars; i++) {
+                int randomRow = random.nextInt(m);
+                int randomCol = random.nextInt(m);
+                int direction = random.nextInt(4); // Dirección aleatoria (0-3)
+                String position = Character.toString((char)('A' + randomRow)) + (randomCol + 1) + " " + direction;
+                placeCar(position);
+            }
+        }
+
     //TO SAVE THE GAME CONFIGURATION
     public class GameConfiguration {
         private int boardSize;
