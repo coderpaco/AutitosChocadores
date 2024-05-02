@@ -68,6 +68,30 @@ public class Autito { // It's better to start class names with a capital letter
     public char[][] getCurrentOrientation() {
         return currentOrientation;
     }
+//ROTATE CLOCKWISE AND GET ORIENTATION;
+    public void rotateClockwise() {
+        char[][] newOrientation = null;
+
+        // Determine the current orientation and set the new orientation accordingly
+        if (currentOrientation == carUp) {
+            newOrientation = carRight;
+        } else if (currentOrientation == carRight) {
+            newOrientation = carDown;
+        } else if (currentOrientation == carDown) {
+            newOrientation = carLeft;
+        } else if (currentOrientation == carLeft) {
+            newOrientation = carUp;
+        }
+
+        // Update the current orientation
+        currentOrientation = newOrientation;
+    }
+
+    // Method to return the current orientation of the Autito
+    public char[][] getOrientation() {
+        return currentOrientation;
+    }
+
 
     public void setOrientation(int direction) {
         switch (direction) {
@@ -91,3 +115,4 @@ public class Autito { // It's better to start class names with a capital letter
         }
     }
 }
+//CHECK NULL EXP rotateClockwise

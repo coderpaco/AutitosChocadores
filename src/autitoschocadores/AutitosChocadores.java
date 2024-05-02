@@ -355,6 +355,7 @@ public Jugadores createPlayer()
                 String position = Character.toString((char)('A' + randomRow)) + (randomCol + 1) + " " + direction;
                 placeCar(position);
             }
+            
         }
 
     //TO SAVE THE GAME CONFIGURATION
