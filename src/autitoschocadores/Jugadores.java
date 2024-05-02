@@ -46,7 +46,7 @@ public class Jugadores {
         this.name = playerName;
     }
 
-    public void setEdad(int playerAge) {
+    public void setAge(int playerAge) {
         this.age = playerAge;
     }
 
@@ -54,24 +54,52 @@ public class Jugadores {
         this.alias = playerAlias;
     }
 
-    public void setPartidas(int playerGames) {
+    public void setGames(int playerGames) {
         this.games = playerGames;
     }
 
-    public void setGanadas(int playerWins) {
+    public void setWins(int playerWins) {
         this.wins = playerWins;
     }
 
-    public void setPerdidas(int playerLosses) {
+    public void setLosses(int playerLosses) {
         this.losses = playerLosses;
     }
 
-    public void setAbandonadas(int playerForfeits) {
+    public void setForfeits(int playerForfeits) {
         this.forfeits = playerForfeits;
     }
 
-    public void setPuntaje(int playerPoints) {
+    public void setPoints(int playerPoints) {
         this.points = playerPoints;
+    }
+    
+    public void addForfeit(){
+        this.forfeits = this.forfeits + 1;
+        this.points = this.points - 5;
+        this.games = this.games + 1;
+    }
+    
+    public void addWin(){
+        this.wins = this.wins + 1;
+        this.points = this.points + 10;
+        this.games = this.games + 1;
+    }
+    
+    public void addLoss(){
+        this.losses = this.losses + 1;
+        this.points = this.points - 2;
+        this.games = this.games + 1;
+    }
+    
+    
+    public void changePoints(int gameStatus)
+    {
+        switch (gameStatus){
+            case 1: //asked for help, subtract 1 point
+                this.points = this.points - 1;
+                break;
+    }
     }
 
     public Jugadores(String playerName, int playerAge, String playerAlias, int playerGames, int playerWins,

@@ -123,6 +123,7 @@ public class AutitosChocadores
                             // generate random car positions
                             generateRandomTable(m, n);
                             displayGameBoard();
+                            startGame();
                             break;
                         case 2: 
                         if (customBoardConfiguration != null) {
@@ -132,6 +133,7 @@ public class AutitosChocadores
                                 placeCar(position);
                             }
                             displayGameBoard();
+                            startGame();
                         } else {
                             System.out.println("Error: No se ha configurado ningún tablero propio.");
                         }
@@ -141,6 +143,7 @@ public class AutitosChocadores
                             // loadGameDataFromFile("Test/predefinedTable.txt");
 
                             playPredefinedGame();
+                            startGame();
                             break;
                         default:
                             System.out.println("Opcion invalido, saliendo del juego.");
@@ -164,6 +167,35 @@ public class AutitosChocadores
         }
     }
 
+    private void startGame()
+    {
+        int currentPlayerMove = 1;
+        boolean gameWon = false;
+        System.out.println("players are: " + jugadoresList.get(0).getAlias() + " and " + jugadoresList.get(1).getAlias());
+
+        while (gameWon !=true) {
+            System.out.println("Player " +(currentPlayerMove)+ ": " + jugadoresList.get(currentPlayerMove-1).getAlias() + " Input move or press S R X");
+            String chosenMove = scanner.nextLine().toUpperCase();
+            
+            switch(chosenMove){
+                case "S":
+                    System.out.println("show move list");
+                    break;
+                case "R":
+                    System.out.println("rotate board");
+                    break;
+                case "X":
+                    System.out.println(jugadoresList.get(currentPlayerMove-1).getAlias() + " has forfeit the game, " + jugadoresList.get(currentPlayerMove).getAlias() + " wins!");
+                    jugadoresList.get(currentPlayerMove-1).addForfeit(); //add forfeit
+                    jugadoresList.get(currentPlayerMove).addWin(); //add win
+                    gameWon = true;
+                    break;
+            }
+        
+        }
+
+    }
+    
     private void playPredefinedGame() 
     {
         m = 5;
