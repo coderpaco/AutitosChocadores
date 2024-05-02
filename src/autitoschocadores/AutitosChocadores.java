@@ -112,8 +112,14 @@ public class AutitosChocadores
 
                     switch (gameOption) {
                         case 1:// al azar
-                            m = random.nextInt(5, 7);
-                            n = random.nextInt(3, 12);
+                            //m = random.nextInt(5, 7); (old, we need to ask for size + cars amt) 
+                            //n = random.nextInt(3, 12);
+                            System.out.println("Ingrese el tamano del tablero (entre 5x5 y 7x7):");
+                            m = getValidInput(5, 7); // Validar el tamaño del tablero
+                            System.out.println("Ingrese la cantidad de autos (entre 3 y 12):");
+                            n = getValidInput(3, 12); // Validar la cantidad de autos
+                            // Inicializa el tablero con el tamaño seleccionado
+                            board = new Board(m);
                             // generate random car positions
                             generateRandomTable(m, n);
                             displayGameBoard();
@@ -232,7 +238,7 @@ public class AutitosChocadores
                     
                     if (autito != null) 
                     {
-                        char[][] carRepresentation = autito.getCurrentOrientation();
+                        char[][] carRepresentation = autito.getOrientation();
                         for (int j = 0; j < 1; j++) 
                         { // Loop for each row in a car representation
                             for (int k = 0; k < 4; k++) 
