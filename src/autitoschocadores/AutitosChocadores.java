@@ -28,8 +28,8 @@ public class AutitosChocadores
     public static int m = 0; // board size (mxm)
     public static int n = 0; // amt of cars (x=n;)
 
-    public static int propioM = 0;//WE NEED TO KNOW WHAT IS THIS
-    public static int propioN = 0;//SAME
+    public static String player1;
+    public static String player2;
 
    
 
@@ -53,7 +53,11 @@ public class AutitosChocadores
     Jugadores[] jugadores = new Jugadores[2];
     jugadores[0] = jugadoresList.get(jugador1Index);
     jugadores[1] = jugadoresList.get(jugador2Index);
-
+    
+    player1 = jugadores[jugador1Index].getAlias();
+    player2 = jugadores[jugador1Index].getAlias();
+    
+    
     return jugadores;
 }
 
@@ -169,31 +173,74 @@ public class AutitosChocadores
 
     private void startGame()
     {
-        int currentPlayerMove = 1;
+        int currentPlayer = 1;
+        boolean player1 = true;
         boolean gameWon = false;
-        System.out.println("players are: " + jugadoresList.get(0).getAlias() + " and " + jugadoresList.get(1).getAlias());
+        System.out.println("players are: " + currentPlayerName(player1) + " and " + currentPlayerName(!player1));
 
         while (gameWon !=true) {
-            System.out.println("Player " +(currentPlayerMove)+ ": " + jugadoresList.get(currentPlayerMove-1).getAlias() + " Input move or press S R X");
+            System.out.println("Player " + currentPlayerName(player1) +  " Input move or press S R X");
             String chosenMove = scanner.nextLine().toUpperCase();
             
             switch(chosenMove){
                 case "S":
                     System.out.println("show move list");
+                    getMovesList();
+                    jugadoresList.get(currentPlayer-1).changePoints(1); //subtract a point for asking for help like a nerd
+                    //System.out.println("Player " + currentPlayerName(player1) +  " Input move or press S R X");
+                    //scanner.nextLine().toUpperCase();
                     break;
                 case "R":
                     System.out.println("rotate board");
+                    rotateBoard();
+                    player1 = !player1;
                     break;
                 case "X":
-                    System.out.println(jugadoresList.get(currentPlayerMove-1).getAlias() + " has forfeit the game, " + jugadoresList.get(currentPlayerMove).getAlias() + " wins!");
-                    jugadoresList.get(currentPlayerMove-1).addForfeit(); //add forfeit
-                    jugadoresList.get(currentPlayerMove).addWin(); //add win
+                    System.out.println(currentPlayerName(player1) + " has forfeit the game, " + currentPlayerName(!player1)  + " wins!");
+                    jugadoresList.get(currentPlayer-1).addForfeit(); //add forfeit
+                    jugadoresList.get(currentPlayer).addWin(); //add win
                     gameWon = true;
+                    break;
+                default:
+                    System.out.println("handling move");
+                    player1 = !player1;
                     break;
             }
         
         }
 
+    }
+    
+    private String currentPlayerName(boolean value){
+        String player;
+        if (value == true){
+            //player 1's turn
+            player = jugadoresList.get(0).getAlias();
+        }else{
+            //player 2's turn
+            player = jugadoresList.get(1).getAlias();
+        }
+        return player;
+    }
+    /*
+        private String updatePlayerValues(boolean value){
+        String player;
+        if (value == true){
+            //player 1's turn
+            player = jugadoresList.get(0).getAlias();
+        }else{
+            //player 2's turn
+            player = jugadoresList.get(1).getAlias();
+        }
+        return player;
+    }
+    */
+    
+    private void getMovesList(){
+        System.out.println("show the moves here lol");
+    }
+    private void rotateBoard(){
+        System.out.println("board rotated nerd");
     }
     
     private void playPredefinedGame() 
