@@ -31,6 +31,8 @@ public class AutitosChocadores
     public static String player1;
     public static String player2;
 
+    public static Jugadores player1Position;
+    public static Jugadores player2Position;
    
 
    // ELEGIR JUGADORES REGISTRADOS PARA JUGAR
@@ -54,9 +56,11 @@ public class AutitosChocadores
     jugadores[0] = jugadoresList.get(jugador1Index);
     jugadores[1] = jugadoresList.get(jugador2Index);
     
-    player1 = jugadores[jugador1Index].getAlias();
-    player2 = jugadores[jugador1Index].getAlias();
+    player1 = jugadores[0].getAlias();
+    player2 = jugadores[1].getAlias();
     
+    player1Position = jugadores[0];
+    player2Position = jugadores[1];
     
     return jugadores;
 }
@@ -186,7 +190,7 @@ public class AutitosChocadores
                 case "S":
                     System.out.println("show move list");
                     getMovesList();
-                    jugadoresList.get(currentPlayer-1).changePoints(1); //subtract a point for asking for help like a nerd
+                    editPlayerStats(player1).changePoints(1); //subtract a point for asking for help like a nerd
                     //System.out.println("Player " + currentPlayerName(player1) +  " Input move or press S R X");
                     //scanner.nextLine().toUpperCase();
                     break;
@@ -197,8 +201,8 @@ public class AutitosChocadores
                     break;
                 case "X":
                     System.out.println(currentPlayerName(player1) + " has forfeit the game, " + currentPlayerName(!player1)  + " wins!");
-                    jugadoresList.get(currentPlayer-1).addForfeit(); //add forfeit
-                    jugadoresList.get(currentPlayer).addWin(); //add win
+                    editPlayerStats(player1).addForfeit(); //add forfeit
+                    editPlayerStats(!player1).addWin(); //add win
                     gameWon = true;
                     break;
                 default:
@@ -211,30 +215,29 @@ public class AutitosChocadores
 
     }
     
+    private Jugadores editPlayerStats(boolean value){
+        Jugadores playerPos;
+        if (value == true){
+            //it is player 1's turn, give their pos
+            playerPos = player1Position;
+        }else{
+            //must be false, player 2 pos
+            playerPos = player2Position;
+        }
+        return playerPos;
+    }
+    
     private String currentPlayerName(boolean value){
         String player;
         if (value == true){
             //player 1's turn
-            player = jugadoresList.get(0).getAlias();
+            player = player1;
         }else{
             //player 2's turn
-            player = jugadoresList.get(1).getAlias();
+            player = player2;
         }
         return player;
     }
-    /*
-        private String updatePlayerValues(boolean value){
-        String player;
-        if (value == true){
-            //player 1's turn
-            player = jugadoresList.get(0).getAlias();
-        }else{
-            //player 2's turn
-            player = jugadoresList.get(1).getAlias();
-        }
-        return player;
-    }
-    */
     
     private void getMovesList(){
         System.out.println("show the moves here lol");
