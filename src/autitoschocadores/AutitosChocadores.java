@@ -28,13 +28,14 @@ public class AutitosChocadores
     public static int m = 0; // board size (mxm)
     public static int n = 0; // amt of cars (x=n;)
 
-    public static String player1;
-    public static String player2;
+    public static String Player1;
+    public static String Player2;
 
     public static Jugadores player1Position;
     public static Jugadores player2Position;
    
-
+    public static boolean gameWon = false;
+    
    // ELEGIR JUGADORES REGISTRADOS PARA JUGAR
    private Jugadores[] elegirJugadores() {
     System.out.println("Jugadores registrados:");
@@ -56,8 +57,8 @@ public class AutitosChocadores
     jugadores[0] = jugadoresList.get(jugador1Index);
     jugadores[1] = jugadoresList.get(jugador2Index);
     
-    player1 = jugadores[0].getAlias();
-    player2 = jugadores[1].getAlias();
+    Player1 = jugadores[0].getAlias();
+    Player2 = jugadores[1].getAlias();
     
     player1Position = jugadores[0];
     player2Position = jugadores[1];
@@ -177,9 +178,8 @@ public class AutitosChocadores
 
     private void startGame()
     {
-        int currentPlayer = 1;
         boolean player1 = true;
-        boolean gameWon = false;
+        //boolean gameWon = false; -- I put this in global variables so other method that handles the game can change it
         System.out.println("players are: " + currentPlayerName(player1) + " and " + currentPlayerName(!player1));
 
         while (gameWon !=true) {
@@ -207,6 +207,7 @@ public class AutitosChocadores
                     break;
                 default:
                     System.out.println("handling move");
+                    handleMove(chosenMove);
                     player1 = !player1;
                     break;
             }
@@ -231,10 +232,10 @@ public class AutitosChocadores
         String player;
         if (value == true){
             //player 1's turn
-            player = player1;
+            player = Player1;
         }else{
             //player 2's turn
-            player = player2;
+            player = Player2;
         }
         return player;
     }
@@ -243,7 +244,40 @@ public class AutitosChocadores
         System.out.println("show the moves here lol");
     }
     private void rotateBoard(){
+        /*
+        board[][] ourBoard = AutitosChocadores.board;
+        for (int i = 0; i < m; i++){
+            for (int j = 0; j< m; j++){
+                if (board[i][j] != emptyCar){
+                    
+                }
+            }
+        }
+*/
         System.out.println("board rotated nerd");
+    }
+    
+    private void handleMove(String move){
+        String recievedMove = move; 
+        boolean goodMove = false;
+        while (goodMove == false){
+            try{
+                String[] pMove = recievedMove.split(" ");
+                String pMove1 = pMove[0];
+                String pMove2 = pMove[1];
+                System.out.println(pMove1 + " " + pMove2);
+                System.out.println("move handled.");
+                goodMove = true;
+            }catch (InputMismatchException e){
+                System.out.println("Invalid move. (InputMismatchException)");
+                System.out.println("Input move again.");
+                recievedMove = scanner.nextLine().toUpperCase();
+            }catch (ArrayIndexOutOfBoundsException e){
+                System.out.println("Invalid move. (ArrayIndexOutOfBoundsException)");
+                System.out.println("Input move again.");
+                recievedMove = scanner.nextLine().toUpperCase();
+            }
+        }
     }
     
     private void playPredefinedGame() 
