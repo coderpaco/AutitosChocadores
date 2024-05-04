@@ -179,7 +179,7 @@ public class AutitosChocadores
     {
         int currentPlayer = 1;
         boolean player1 = true;
-        boolean gameWon = false;
+        //boolean gameWon = false; moved this to gloabl again
         System.out.println("players are: " + currentPlayerName(player1) + " and " + currentPlayerName(!player1));
 
         while (gameWon !=true) {
@@ -207,6 +207,7 @@ public class AutitosChocadores
                     break;
                 default:
                     System.out.println("handling move");
+                    handleMove(chosenMove);
                     player1 = !player1;
                     break;
             }
@@ -243,6 +244,30 @@ public class AutitosChocadores
         System.out.println("show the moves here lol");
     }
 
+     private void handleMove(String move){
+        String recievedMove = move; 
+        boolean goodMove = false;
+        while (goodMove == false){
+            try{
+                String[] pMove = recievedMove.split(" ");
+                String pMove1 = pMove[0];
+                String pMove2 = pMove[1];
+                System.out.println(pMove1 + " " + pMove2);
+                System.out.println("move handled.");
+                goodMove = true;
+                displayGameBoard();
+            }catch (InputMismatchException e){
+                System.out.println("Invalid move. (InputMismatchException)");
+                System.out.println("Input move again.");
+                recievedMove = scanner.nextLine().toUpperCase();
+            }catch (ArrayIndexOutOfBoundsException e){
+                System.out.println("Invalid move. (ArrayIndexOutOfBoundsException)");
+                System.out.println("Input move again.");
+                recievedMove = scanner.nextLine().toUpperCase();
+            }
+        }
+     }
+     
     private void rotateBoard() {
         System.out.println("Rotating the board...");
     
