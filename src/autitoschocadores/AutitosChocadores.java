@@ -35,7 +35,6 @@ public class AutitosChocadores
     public static Jugadores player2Position;
    
     public static boolean gameWon = false;
-    
    // ELEGIR JUGADORES REGISTRADOS PARA JUGAR
    private Jugadores[] elegirJugadores() {
     System.out.println("Jugadores registrados:");
@@ -178,8 +177,9 @@ public class AutitosChocadores
 
     private void startGame()
     {
+        int currentPlayer = 1;
         boolean player1 = true;
-        //boolean gameWon = false; -- I put this in global variables so other method that handles the game can change it
+        boolean gameWon = false;
         System.out.println("players are: " + currentPlayerName(player1) + " and " + currentPlayerName(!player1));
 
         while (gameWon !=true) {
@@ -207,7 +207,6 @@ public class AutitosChocadores
                     break;
                 default:
                     System.out.println("handling move");
-                    handleMove(chosenMove);
                     player1 = !player1;
                     break;
             }
@@ -243,41 +242,39 @@ public class AutitosChocadores
     private void getMovesList(){
         System.out.println("show the moves here lol");
     }
-    private void rotateBoard(){
-        /*
-        board[][] ourBoard = AutitosChocadores.board;
-        for (int i = 0; i < m; i++){
-            for (int j = 0; j< m; j++){
-                if (board[i][j] != emptyCar){
-                    
+
+    private void rotateBoard() {
+        System.out.println("Rotating the board...");
+    
+        // Create a new board to store the rotated cells
+        Board rotatedBoard = new Board(m);
+    
+        // Rotate the board by swapping rows and columns
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
+                Autito autito = board.getAutitoAt(i, j);
+                if (autito != null) {
+                    int newRow = j; // Rotate columns
+                    int newCol = m - 1 - i; // Rotate rows
+                    rotatedBoard.placeAutito(newRow, newCol, autito); // Place the Autito in the rotated position
                 }
             }
         }
-*/
-        System.out.println("board rotated nerd");
-    }
     
-    private void handleMove(String move){
-        String recievedMove = move; 
-        boolean goodMove = false;
-        while (goodMove == false){
-            try{
-                String[] pMove = recievedMove.split(" ");
-                String pMove1 = pMove[0];
-                String pMove2 = pMove[1];
-                System.out.println(pMove1 + " " + pMove2);
-                System.out.println("move handled.");
-                goodMove = true;
-            }catch (InputMismatchException e){
-                System.out.println("Invalid move. (InputMismatchException)");
-                System.out.println("Input move again.");
-                recievedMove = scanner.nextLine().toUpperCase();
-            }catch (ArrayIndexOutOfBoundsException e){
-                System.out.println("Invalid move. (ArrayIndexOutOfBoundsException)");
-                System.out.println("Input move again.");
-                recievedMove = scanner.nextLine().toUpperCase();
+        // Update the original board with the rotated board
+        board = rotatedBoard;
+    
+        // Rotate all cars on the board
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < m; j++) {
+                Autito autito = board.getAutitoAt(i, j);
+                if (autito != null) {
+                    autito.rotateClockwise(); // Rotate the car
+                }
             }
         }
+        displayGameBoard();
+        System.out.println("Board and cars rotated successfully.");
     }
     
     private void playPredefinedGame() 

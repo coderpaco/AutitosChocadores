@@ -51,7 +51,7 @@ public class Board {
             System.out.println();
         }
     }
-
+    
     // Display the representation of the Autito
     private void displayAutito(Autito autito) {
         char[][] representation = autito.getOrientation();
@@ -130,4 +130,5 @@ private int[] getNextPosition(int row, int col, int direction) {
     
     return nextPosition;
 }
+
 }
