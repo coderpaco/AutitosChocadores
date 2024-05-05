@@ -89,7 +89,6 @@ public class Autito { // It's better to start class names with a capital letter
         return currentOrientation;
     }
 
-
     public void setOrientation(int direction) {
         switch (direction) {
             case 0: // Up

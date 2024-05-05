@@ -177,9 +177,7 @@ public class AutitosChocadores
 
     private void startGame()
     {
-        int currentPlayer = 1;
         boolean player1 = true;
-        //boolean gameWon = false; moved this to gloabl again
         System.out.println("players are: " + currentPlayerName(player1) + " and " + currentPlayerName(!player1));
 
         while (gameWon !=true) {
@@ -206,7 +204,7 @@ public class AutitosChocadores
                     gameWon = true;
                     break;
                 default:
-                    System.out.println("handling move");
+                    //System.out.println("default: handling move...");
                     handleMove(chosenMove);
                     player1 = !player1;
                     break;
@@ -247,26 +245,62 @@ public class AutitosChocadores
      private void handleMove(String move){
         String recievedMove = move; 
         boolean goodMove = false;
-        while (goodMove == false){
-            try{
+        while (goodMove == false)
+        {
+            try
+            {   /*
                 String[] pMove = recievedMove.split(" ");
                 String pMove1 = pMove[0];
-                String pMove2 = pMove[1];
+                int pMove2 = Integer.parseInt(pMove[1]);
                 System.out.println(pMove1 + " " + pMove2);
-                System.out.println("move handled.");
-                goodMove = true;
-                displayGameBoard();
-            }catch (InputMismatchException e){
-                System.out.println("Invalid move. (InputMismatchException)");
-                System.out.println("Input move again.");
-                recievedMove = scanner.nextLine().toUpperCase();
-            }catch (ArrayIndexOutOfBoundsException e){
-                System.out.println("Invalid move. (ArrayIndexOutOfBoundsException)");
-                System.out.println("Input move again.");
+                //check if theres a car in the direction selected
+                */
+                String[] parts = recievedMove.split(" ");
+                String position = parts[0]; //letter
+                int direction = Integer.parseInt(parts[1]); //number, but this isnt used?
+
+                int row = position.charAt(0) - 'A'; // letter (A,B)
+                int col = direction;     //Integer.parseInt(position.substring(1)) - 1; //number (1,2,)
+                
+                Autito autito = board.getAutitoAt(row, col); //gets us the orientation
+                //System.out.println(autito);
+                
+                if (row >= 0 && row < m && col >= 0 && col < m) 
+                {
+                    /*
+                    for (int k = 0; k < m; k++){
+                        for (int j = 0; j< m; j++){
+                            
+                            System.out.println("ok");
+                        }
+                    }
+                        Autito newCar = new Autito(row * m + col);  // Convert row and column to a single index (assuming linear board representation)
+                        newCar.setOrientation(direction);  // Set the orientation based on user input
+                        board.placeAutito(row, col, newCar); // Place the Autito object on the board
+                        */
+    
+                    //System.out.println("move handled.");
+                    goodMove = true;
+                    displayGameBoard();
+                } else {
+                    System.out.println("Posicion fuera de limites, intente de nuevo.");
+                    //System.out.println("Input move again.");
+                    recievedMove = scanner.nextLine().toUpperCase();
+                }
+
+                
+                //placeCar(recievedMove);
+                
+                System.out.println("move was valid and handled. Printing board and exiting loop.");
+                //goodMove = true;
+                //displayGameBoard();
+            }catch (InputMismatchException | ArrayIndexOutOfBoundsException | NumberFormatException e){
+                System.out.println("Formato invalido, intente de nuevo. (Formato correcto: A 1)");
+                //System.out.println("Input move again.");
                 recievedMove = scanner.nextLine().toUpperCase();
             }
         }
-     }
+    }
      
     private void rotateBoard() {
         System.out.println("Rotating the board...");
