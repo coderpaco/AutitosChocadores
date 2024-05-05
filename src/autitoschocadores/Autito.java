@@ -64,10 +64,10 @@ public class Autito { // It's better to start class names with a capital letter
         this.carPosition = startPosition;
         this.currentOrientation = carUp; // Default orientation
     }
-
+    
 //ROTATE CLOCKWISE AND GET ORIENTATION;
     public void rotateClockwise() {
-        char[][] newOrientation = null;
+        char[][] newOrientation = emptyCell; //changed from null
 
         // Determine the current orientation and set the new orientation accordingly
         if (currentOrientation == carUp) {
@@ -78,6 +78,8 @@ public class Autito { // It's better to start class names with a capital letter
             newOrientation = carLeft;
         } else if (currentOrientation == carLeft) {
             newOrientation = carUp;
+        } else if (currentOrientation == emptyCell) {
+            newOrientation = emptyCell;
         }
 
         // Update the current orientation
@@ -89,6 +91,19 @@ public class Autito { // It's better to start class names with a capital letter
         return currentOrientation;
     }
 
+    public String getCarDirection() {
+        if (currentOrientation == carUp) {
+            return "carUp";
+        } else if (currentOrientation == carRight) {
+            return "carRight";
+        } else if (currentOrientation == carDown) {
+            return "carDown";
+        } else if (currentOrientation == carLeft) {
+            return "carLeft";
+        }
+        return "error";
+    }
+    
     public void setOrientation(int direction) {
         switch (direction) {
             case 0: // Up

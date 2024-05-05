@@ -41,7 +41,7 @@ public class AutitosChocadores
     for (int i = 0; i < jugadoresList.size(); i++) {
         System.out.println((i + 1) + ". " + jugadoresList.get(i).getAlias());
     }
-    System.out.println("Elige dos jugadores (números separados por espacios):");
+    System.out.println("Elige dos jugadores (numeros separados por espacios):");
     int jugador1Index = scanner.nextInt() - 1;
     int jugador2Index = scanner.nextInt() - 1;
     scanner.nextLine(); // Consumir la nueva línea
@@ -186,14 +186,12 @@ public class AutitosChocadores
             
             switch(chosenMove){
                 case "S":
-                    System.out.println("show move list");
                     getMovesList();
                     editPlayerStats(player1).changePoints(1); //subtract a point for asking for help like a nerd
                     //System.out.println("Player " + currentPlayerName(player1) +  " Input move or press S R X");
                     //scanner.nextLine().toUpperCase();
                     break;
                 case "R":
-                    System.out.println("rotate board");
                     rotateBoard();
                     player1 = !player1;
                     break;
@@ -204,7 +202,6 @@ public class AutitosChocadores
                     gameWon = true;
                     break;
                 default:
-                    //System.out.println("default: handling move...");
                     handleMove(chosenMove);
                     player1 = !player1;
                     break;
@@ -239,7 +236,28 @@ public class AutitosChocadores
     }
     
     private void getMovesList(){
-        System.out.println("show the moves here lol");
+        ArrayList<String> movesList = new ArrayList<>();
+        for (int i = 0; i < m; i++){
+            for (int j = 0; j < m; j++){
+                System.out.println("checking "+ i + "" + j); //DEBUGGING
+                Autito autito = board.getAutitoAt(i, j);
+                if (autito != null){
+                            if (board.checkAutitoInDirections(i,j) == true){
+                        String newI = Character.toString((char) (i + 'A'));
+                        System.out.println("Available move: " + newI + " " + (j+1));
+                        movesList.add(i + " " + j);
+                    } 
+                }
+            }
+        }
+        /*
+        for (int k = 0; k < movesList.size(); k++){
+            System.out.println(k);
+        }
+        */
+        if (movesList.size()< 1){
+            System.out.println("no moves loser");
+        }
     }
 
      private void handleMove(String move){

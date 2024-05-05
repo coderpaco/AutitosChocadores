@@ -4,8 +4,8 @@ package autitoschocadores;
 
 public class Board {
     private Autito[][] board;
-    private int size;
-
+    private int size;  
+    
     public Board(int size) {
         this.size = size;
         this.board = new Autito[size][size];
@@ -31,9 +31,11 @@ public class Board {
     }
 
     public Autito getAutitoAt(int row, int col) {
+        //char[][] emptyCellBlock = autito.getEmptyCell;
         if (row >= 0 && row < board.length && col >= 0 && col < board[0].length) {
             return board[row][col];
         } else {
+            //System.out.println("error: null at " + row + " "  + col);
             return null;
         }
     }
@@ -74,33 +76,33 @@ public boolean checkAutitoInDirections(int row, int col) {
     // Iterate over all directions
     for (int direction : directions) {
         Autito autito = getAutitoAt(row, col); // Get the Autito at the specified position
-        
+        //if (autito != null){  // ADDED THIS CHECK HERE TO STOP IT FROM THROWING ERROR.
         // Rotate the Autito clockwise
-        autito.rotateClockwise();
-        
-        // Move the Autito in the current direction until it reaches the end or finds another Autito
-        while (true) {
-            // Get the next position after moving in the current direction
-            int[] nextPosition = getNextPosition(row, col, direction);
-            int nextRow = nextPosition[0];
-            int nextCol = nextPosition[1];
-            
-            // Check if the next position is out of bounds
-            if (nextRow < 0 || nextRow >= size || nextCol < 0 || nextCol >= size) {
-                break; // Reached the edge of the board
+            autito.rotateClockwise();
+
+            // Move the Autito in the current direction until it reaches the end or finds another Autito
+            while (true) {
+                // Get the next position after moving in the current direction
+                int[] nextPosition = getNextPosition(row, col, direction);
+                int nextRow = nextPosition[0];
+                int nextCol = nextPosition[1];
+
+                // Check if the next position is out of bounds
+                if (nextRow < 0 || nextRow >= size || nextCol < 0 || nextCol >= size) {
+                    break; // Reached the edge of the board
+                }
+
+                // Check if there's an Autito at the next position
+                if (getAutitoAt(nextRow, nextCol) != null) {
+                    return true; // There's an Autito in this direction
+                }
+
+                // Move to the next position
+                row = nextRow;
+                col = nextCol;
             }
-            
-            // Check if there's an Autito at the next position
-            if (getAutitoAt(nextRow, nextCol) != null) {
-                return true; // There's an Autito in this direction
-            }
-            
-            // Move to the next position
-            row = nextRow;
-            col = nextCol;
-        }
+        //}
     }
-    
     return false; // No Autito found in any direction
 }
     // Helper method to get the next position based on the current position and direction
