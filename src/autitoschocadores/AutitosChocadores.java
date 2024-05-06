@@ -239,7 +239,7 @@ public class AutitosChocadores
         ArrayList<String> movesList = new ArrayList<>();
         for (int i = 0; i < m; i++){
             for (int j = 0; j < m; j++){
-                System.out.println("checking "+ i + "" + j); //DEBUGGING
+                //System.out.println("checking "+ i + "" + j); //DEBUGGING
                 Autito autito = board.getAutitoAt(i, j);
                 if (autito != null){
                             if (board.checkAutitoInDirections(i,j) == true){

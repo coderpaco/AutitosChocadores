@@ -64,7 +64,7 @@ public class Autito { // It's better to start class names with a capital letter
         this.carPosition = startPosition;
         this.currentOrientation = carUp; // Default orientation
     }
-    
+
 //ROTATE CLOCKWISE AND GET ORIENTATION;
     public void rotateClockwise() {
         char[][] newOrientation = emptyCell; //changed from null

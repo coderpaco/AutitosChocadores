@@ -72,10 +72,11 @@ public class Board {
 // CHECK AUTITO DIRECTIONS TO GET NEXT POSITIONS
 public boolean checkAutitoInDirections(int row, int col) {
     int[] directions = {0, 1, 2, 3}; // Directions: 0 (right), 1 (down), 2 (left), 3 (up)
-    
+    String autitoSavedPos;
     // Iterate over all directions
-    for (int direction : directions) {
-        Autito autito = getAutitoAt(row, col); // Get the Autito at the specified position
+    for (int direction : directions) {  
+        Autito autito = getAutitoAt(row, col); // Get the Autito at the specified position`
+        autitoSavedPos = autito.getCarDirection(); //save autito's pos to be reverted to later
         // Rotate the Autito clockwise
         autito.rotateClockwise();
 
@@ -101,13 +102,40 @@ public boolean checkAutitoInDirections(int row, int col) {
 
             // Check if there's an Autito at the next position
             if (getAutitoAt(currentRow, currentCol) != null) {
+                returnToOriginalPos(autitoSavedPos,row,col);
                 return true; // There's an Autito in this direction
             }
+            returnToOriginalPos(autitoSavedPos,row,col);
         }
+        returnToOriginalPos(autitoSavedPos,row,col);
     }
-
+    
     return false; // No Autito found in any direction
 }
+
+private void returnToOriginalPos(String pos, int row, int col){ //return cars to a saved pos
+    Autito autito = getAutitoAt(row,col);
+    switch (pos){
+        case "carUp":
+            autito.setOrientation(0);
+            break;
+        case "carRight":
+            autito.setOrientation(1);
+            break;
+        case "carLeft":
+            autito.setOrientation(3);
+            break;
+        case "carDown":
+            autito.setOrientation(2);
+            break;
+        case "emptyCell":
+            autito.setOrientation(4);
+            break;        
+    }
+        
+    
+}
+
     // Helper method to get the next position based on the current position and direction
 private int[] getNextPosition(int row, int col, int direction) {
     int[] nextPosition = new int[2];
