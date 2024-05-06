@@ -66,7 +66,7 @@ public class Board {
     }
 
     // Check if the position is within the bounds of the board
-    private boolean isValidPosition(int row, int col) {
+    public boolean isValidPosition(int row, int col) {
         return row >= 0 && row < size && col >= 0 && col < size;
     }
 // CHECK AUTITO DIRECTIONS TO GET NEXT POSITIONS
@@ -113,6 +113,8 @@ public boolean checkAutitoInDirections(int row, int col) {
     return false; // No Autito found in any direction
 }
 
+
+
 private void returnToOriginalPos(String pos, int row, int col){ //return cars to a saved pos
     Autito autito = getAutitoAt(row,col);
     switch (pos){
@@ -137,7 +139,7 @@ private void returnToOriginalPos(String pos, int row, int col){ //return cars to
 }
 
     // Helper method to get the next position based on the current position and direction
-private int[] getNextPosition(int row, int col, int direction) {
+public int[] getNextPosition(int row, int col, int direction) {
     int[] nextPosition = new int[2];
     
     switch (direction) {
