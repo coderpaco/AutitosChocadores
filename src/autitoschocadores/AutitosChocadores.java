@@ -74,6 +74,7 @@ public class AutitosChocadores
         System.out.println("Bienvenidos! Te gustaria jugar Autitos Chocadores? (si/no)");
         String choice = scanner.nextLine().toLowerCase();
         
+        
         while (choice.equals("si")) 
         {
             // Ask the player for the game setup option
@@ -164,7 +165,7 @@ public class AutitosChocadores
                     ranking.displayRanking(); // Display the sorted ranking
                     break;
                 case 'e':
-                    System.out.println("Saliendo del juego.");
+                    System.out.println("Hasta la proxima execucion!");
                     System.exit(0);
                 default:
                     System.out.println("Opcion invalido, saliendo del juego.");
@@ -172,6 +173,14 @@ public class AutitosChocadores
             }
             System.out.println("Desea volver al menu principal? (si/no)");
             choice = scanner.nextLine().toLowerCase();
+            if (choice.equals("no")){
+                System.out.println("Hasta la proxima execucion!");
+                System.exit(0);
+            }
+        }
+        if(choice.equals("no")){
+            System.out.println("Hasta la proxima execucion!");
+            System.exit(0);
         }
     }
 
