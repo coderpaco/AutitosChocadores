@@ -305,17 +305,14 @@ public class AutitosChocadores
 }
 
 // Método para mover el autito al primer autito que encuentre chocando en sentido horario
-private void moveAutitoToCollision(Autito autito, int row, int col) {
+/*private void moveAutitoToCollision(Autito autito, int row, int col) {
     
     int[] directions = {0, 1, 2, 3}; // Direcciones: 0 (derecha), 1 (abajo), 2 (izquierda), 3 (arriba)
 
     // Iterar sobre todas las direcciones
     for (int direction : directions) {
-        // Rotar el autito en sentido horario
-        autito.rotateClockwise();
-
         // Obtener la próxima posición del autito
-       int[] nextPosition = board.getNextPosition(row, col, direction);
+        int[] nextPosition = board.getNextPosition(row, col, direction);
         int nextRow = nextPosition[0];
         int nextCol = nextPosition[1];
 
@@ -331,9 +328,45 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
                 return; // Salir del método después de mover el autito
             }
         }
+
+        // Rotar el autito en sentido horario
+        autito.rotateClockwise();
     }
 
     // No se encontraron colisiones en ninguna dirección
+    System.out.println("No se encontraron autitos para chocar. El autito no se movió.");
+}*/
+private void moveAutitoToCollision(Autito autito, int row, int col) {
+    int[] directions = {0, 1, 2, 3}; // Directions: 0 (right), 1 (down), 2 (left), 3 (up)
+
+    // Iterate over all directions
+    for (int direction : directions) {
+        int[] nextPosition = board.getNextPosition(row, col, direction);
+        int nextRow = nextPosition[0];
+        int nextCol = nextPosition[1];
+
+        // Move the Autito in the specified direction until a collision occurs
+        while (board.isValidPosition(nextRow, nextCol)) {
+            Autito nextAutito = board.getAutitoAt(nextRow, nextCol);
+            if (nextAutito != null) {
+                // Collision detected, move the current Autito to the next position and remove the Autito at the next position
+                board.placeAutito(nextRow, nextCol, autito);
+                board.placeAutito(row, col, null); // Remove the Autito from the original position
+
+                System.out.println("Collision detected! Autito moved to position " + (char) ('A' + nextRow) + " " + (nextCol + 1));
+                return; // Exit the method after moving the Autito
+            } else {
+                // No collision, move to the next position
+                row = nextRow;
+                col = nextCol;
+                nextPosition = board.getNextPosition(row, col, direction);
+                nextRow = nextPosition[0];
+                nextCol = nextPosition[1];
+            }
+        }
+    }
+
+    // No collisions found in any direction
     System.out.println("No se encontraron autitos para chocar. El autito no se movió.");
 }
      

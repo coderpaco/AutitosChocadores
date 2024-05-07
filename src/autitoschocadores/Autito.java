@@ -86,6 +86,8 @@ public class Autito { // It's better to start class names with a capital letter
         currentOrientation = newOrientation;
     }
 
+    
+
     // Method to return the current orientation of the Autito
     public char[][] getOrientation() {
         return currentOrientation;
