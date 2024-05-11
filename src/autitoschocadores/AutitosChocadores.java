@@ -260,82 +260,91 @@ public class AutitosChocadores
         }
     }
 
-     private void handleMove(String move) {
-    String receivedMove = move.toUpperCase(); // Convertir el movimiento a mayúsculas para consistencia
-    boolean validMove = false;
-
-    while (!validMove) {
-        try {
-            // Dividir el movimiento en partes
-            String[] parts = receivedMove.split(" ");
-            String position = parts[0]; // Letra de la posición
-            int direction = Integer.parseInt(parts[1]); // Dirección del autito
-
-            // Calcular la posición del autito en el tablero
-            int row = position.charAt(0) - 'A'; // Convertir la letra a un índice de fila (0 para 'A', 1 para 'B', etc.)
-            int col = direction - 1; // Restar 1 porque las direcciones comienzan desde 1 en la entrada del usuario
-
-            // Verificar si la posición está dentro de los límites del tablero
-            if (board.isValidPosition(row, col)) {
-                Autito autito = board.getAutitoAt(row, col); // Obtener el autito en la posición especificada
-
-                // Verificar si el autito es seleccionable (tiene al menos un autito alrededor para chocar)
-                if (board.checkAutitoInDirections(row, col)) {
-                    // Mover el autito al primer autito que encuentre chocando en sentido horario
-                    moveAutitoToCollision(autito, row, col);
-
-                    // Indicar que el movimiento fue válido
-                    validMove = true;
-
-                    // Mostrar el tablero actualizado
-                    displayGameBoard();
+    private void handleMove(String move) {
+        String receivedMove = move.toUpperCase(); // Convertir el movimiento a mayúsculas para consistencia
+        boolean validMove = false;
+    
+        while (!validMove) {
+            try {
+                // Dividir el movimiento en partes
+                String[] parts = receivedMove.split(" ");
+                String position = parts[0]; // Letra de la posición
+                int direction = Integer.parseInt(parts[1]); // Dirección del autito
+    
+                // Calcular la posición del autito en el tablero
+                int row = position.charAt(0) - 'A'; // Convertir la letra a un índice de fila (0 para 'A', 1 para 'B', etc.)
+                int col = direction - 1; // Restar 1 porque las direcciones comienzan desde 1 en la entrada del usuario
+    
+                // Verificar si la posición está dentro de los límites del tablero
+                if (board.isValidPosition(row, col)) {
+                    Autito autito = board.getAutitoAt(row, col); // Obtener el autito en la posición especificada
+    
+                    // Verificar si el autito es seleccionable (tiene otro autito alrededor después de girar en sentido horario)
+                    if (checkAutitoCanBeSelected(autito, row, col, direction)) {
+                        // Mover el autito al primer autito que encuentre chocando en sentido horario
+                        moveAutitoToCollision(autito, row, col);
+    
+                        // Indicar que el movimiento fue válido
+                        validMove = true;
+    
+                        // Mostrar el tablero actualizado
+                        displayGameBoard();
+                    } else {
+                        System.out.println("No hay autitos alrededor de esta posición para chocar. Intente de nuevo.");
+                        receivedMove = scanner.nextLine().toUpperCase(); // Solicitar un nuevo movimiento
+                    }
                 } else {
-                    System.out.println("No hay autitos alrededor de esta posición para chocar. Intente de nuevo.");
+                    System.out.println("Posición fuera de límites. Intente de nuevo.");
                     receivedMove = scanner.nextLine().toUpperCase(); // Solicitar un nuevo movimiento
                 }
-            } else {
-                System.out.println("Posición fuera de límites. Intente de nuevo.");
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                System.out.println("Formato de movimiento incorrecto. Intente de nuevo. (Formato correcto: A 1)");
                 receivedMove = scanner.nextLine().toUpperCase(); // Solicitar un nuevo movimiento
             }
-        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-            System.out.println("Formato de movimiento incorrecto. Intente de nuevo. (Formato correcto: A 1)");
-            receivedMove = scanner.nextLine().toUpperCase(); // Solicitar un nuevo movimiento
         }
     }
+   // Método para verificar si el autito puede ser seleccionado según las reglas del juego
+   private boolean checkAutitoCanBeSelected(Autito autito, int row, int col, int direction) {
+    // Check collision after rotating 90 degrees clockwise
+    autito.rotateClockwise();
+    if (checkCollisionInDirection(autito, row, col, direction)) {
+        return true; // Autito faces another Autito, so it can be selected
+    }
+
+    // Check collision after rotating 180 degrees clockwise
+    autito.rotateClockwise();
+    if (checkCollisionInDirection(autito, row, col, direction)) {
+        return true; // Autito faces another Autito, so it can be selected
+    }
+
+    // Check collision after rotating 270 degrees clockwise
+    autito.rotateClockwise();
+    if (checkCollisionInDirection(autito, row, col, direction)) {
+        return true; // Autito faces another Autito, so it can be selected
+    }
+
+    // Autito does not face another Autito after rotating 90, 180, and 270 degrees clockwise, so it cannot be selected
+    return false;
 }
 
-// Método para mover el autito al primer autito que encuentre chocando en sentido horario
-/*private void moveAutitoToCollision(Autito autito, int row, int col) {
-    
-    int[] directions = {0, 1, 2, 3}; // Direcciones: 0 (derecha), 1 (abajo), 2 (izquierda), 3 (arriba)
 
-    // Iterar sobre todas las direcciones
-    for (int direction : directions) {
-        // Obtener la próxima posición del autito
-        int[] nextPosition = board.getNextPosition(row, col, direction);
-        int nextRow = nextPosition[0];
-        int nextCol = nextPosition[1];
+private boolean checkCollisionInDirection(Autito autito, int row, int col, int direction) {
+    int[] nextPosition = board.getNextPosition(row, col, direction);
+    int nextRow = nextPosition[0];
+    int nextCol = nextPosition[1];
 
-        // Verificar si la próxima posición está dentro de los límites del tablero
-        if (board.isValidPosition(nextRow, nextCol)) {
-            Autito nextAutito = board.getAutitoAt(nextRow, nextCol);
-            if (nextAutito != null) {
-                // Hubo una colisión, mover el autito actual a la próxima posición y eliminar el autito en la próxima posición
-                board.placeAutito(nextRow, nextCol, autito);
-                board.placeAutito(row, col, null); // Eliminar el autito de la posición original
-
-                System.out.println("¡Colisión detectada! Autito movido a la posición " + (char) ('A' + nextRow) + " " + (nextCol + 1));
-                return; // Salir del método después de mover el autito
-            }
-        }
-
-        // Rotar el autito en sentido horario
-        autito.rotateClockwise();
+    // Check if the next position is within the boundaries of the game board
+    if (!board.isValidPosition(nextRow, nextCol)) {
+        return false; // No Autito in this direction
     }
 
-    // No se encontraron colisiones en ninguna dirección
-    System.out.println("No se encontraron autitos para chocar. El autito no se movió.");
-}*/
+    // Retrieve the Autito object at the next position
+    Autito nextAutito = board.getAutitoAt(nextRow, nextCol);
+
+    // Check if there is another Autito at the next position
+    return nextAutito != null;
+}
+
 private void moveAutitoToCollision(Autito autito, int row, int col) {
     int[] directions = {0, 1, 2, 3}; // Directions: 0 (right), 1 (down), 2 (left), 3 (up)
 
@@ -345,23 +354,17 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
         int nextRow = nextPosition[0];
         int nextCol = nextPosition[1];
 
-        // Move the Autito in the specified direction until a collision occurs
-        while (board.isValidPosition(nextRow, nextCol)) {
+        // Check if the next position is valid
+        if (board.isValidPosition(nextRow, nextCol)) {
             Autito nextAutito = board.getAutitoAt(nextRow, nextCol);
+
+            // If there's a collision, move the Autito
             if (nextAutito != null) {
-                // Collision detected, move the current Autito to the next position and remove the Autito at the next position
-                board.placeAutito(nextRow, nextCol, autito);
+                board.placeAutito(nextRow, nextCol, autito); // Move the current Autito to the collision position
                 board.placeAutito(row, col, null); // Remove the Autito from the original position
 
                 System.out.println("Collision detected! Autito moved to position " + (char) ('A' + nextRow) + " " + (nextCol + 1));
-                return; // Exit the method after moving the Autito
-            } else {
-                // No collision, move to the next position
-                row = nextRow;
-                col = nextCol;
-                nextPosition = board.getNextPosition(row, col, direction);
-                nextRow = nextPosition[0];
-                nextCol = nextPosition[1];
+                return;
             }
         }
     }
