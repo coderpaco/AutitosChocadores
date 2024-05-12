@@ -176,6 +176,10 @@ public class AutitosChocadores
             System.out.println("Respuesta no válida. Por favor, responda 'si' o 'no'.");
             choice = scanner.nextLine().toLowerCase();
         }
+        if (choice.equals("no")){
+            System.out.println("Saliendo del juego.");
+                    System.exit(0);
+        }
     }
 }
 
