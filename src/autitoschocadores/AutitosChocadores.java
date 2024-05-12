@@ -280,7 +280,7 @@ public class AutitosChocadores
                     Autito autito = board.getAutitoAt(row, col); // Obtener el autito en la posición especificada
     
                     // Verificar si el autito es seleccionable (tiene otro autito alrededor después de girar en sentido horario)
-                    if (checkAutitoCanBeSelected(autito, row, col, direction)) {
+                    if (board.checkAutitoInDirections(row, col)) {
                         // Mover el autito al primer autito que encuentre chocando en sentido horario
                         moveAutitoToCollision(autito, row, col);
     
@@ -303,69 +303,66 @@ public class AutitosChocadores
             }
         }
     }
-   // Método para verificar si el autito puede ser seleccionado según las reglas del juego
-   private boolean checkAutitoCanBeSelected(Autito autito, int row, int col, int direction) {
-    // Check collision after rotating 90 degrees clockwise
-    autito.rotateClockwise();
-    if (checkCollisionInDirection(autito, row, col, direction)) {
-        return true; // Autito faces another Autito, so it can be selected
-    }
 
-    // Check collision after rotating 180 degrees clockwise
-    autito.rotateClockwise();
-    if (checkCollisionInDirection(autito, row, col, direction)) {
-        return true; // Autito faces another Autito, so it can be selected
-    }
-
-    // Check collision after rotating 270 degrees clockwise
-    autito.rotateClockwise();
-    if (checkCollisionInDirection(autito, row, col, direction)) {
-        return true; // Autito faces another Autito, so it can be selected
-    }
-
-    // Autito does not face another Autito after rotating 90, 180, and 270 degrees clockwise, so it cannot be selected
-    return false;
-}
-
-
-private boolean checkCollisionInDirection(Autito autito, int row, int col, int direction) {
-    int[] nextPosition = board.getNextPosition(row, col, direction);
-    int nextRow = nextPosition[0];
-    int nextCol = nextPosition[1];
-
-    // Check if the next position is within the boundaries of the game board
-    if (!board.isValidPosition(nextRow, nextCol)) {
-        return false; // No Autito in this direction
-    }
-
-    // Retrieve the Autito object at the next position
-    Autito nextAutito = board.getAutitoAt(nextRow, nextCol);
-
-    // Check if there is another Autito at the next position
-    return nextAutito != null;
-}
 
 private void moveAutitoToCollision(Autito autito, int row, int col) {
-    int[] directions = {0, 1, 2, 3}; // Directions: 0 (right), 1 (down), 2 (left), 3 (up)
+    String autitoDirection = autito.getCarDirection();
+    int[] relevantDirections;
 
-    // Iterate over all directions
-    for (int direction : directions) {
-        int[] nextPosition = board.getNextPosition(row, col, direction);
-        int nextRow = nextPosition[0];
-        int nextCol = nextPosition[1];
+    // Determina las direcciones adyacentes relevantes según la orientación actual del autito
+    switch (autitoDirection) {
+        case "carUp":
+            relevantDirections = new int[]{1, 2, 3}; // Derecha, abajo, izquierda
+            break;
+        case "carRight":
+            relevantDirections = new int[]{2, 3, 0}; // Abajo, izquierda, arriba
+            break;
+        case "carDown":
+            relevantDirections = new int[]{3, 0, 1}; // Izquierda, arriba, derecha
+            break;
+        case "carLeft":
+            relevantDirections = new int[]{0, 1, 2}; // Arriba, derecha, abajo
+            break;
+        default:
+           relevantDirections = new int[0]; // Sin direcciones relevantes
+           System.out.println("IM CHECKING DEFAULT! ");
+    }
 
-        // Check if the next position is valid
-        if (board.isValidPosition(nextRow, nextCol)) {
+      // Iterate over all relevant directions
+      for (int direction : relevantDirections) {
+        // Get the initial position of the Autito
+        int currentRow = row;
+        int currentCol = col;
+
+        // Move the Autito in the current direction until it reaches the end or finds another Autito
+        while (true) {
+            // Get the next position after moving in the current direction
+            int[] nextPosition = board.getNextPosition(currentRow, currentCol, direction);
+            int nextRow = nextPosition[0];
+            int nextCol = nextPosition[1];
+
+            // Check if the next position is valid
+            if (!board.isValidPosition(nextRow, nextCol)) {
+                break; // Reached the edge of the board
+            }
+
+            // Retrieve the Autito object at the next position
             Autito nextAutito = board.getAutitoAt(nextRow, nextCol);
 
             // If there's a collision, move the Autito
             if (nextAutito != null) {
-                board.placeAutito(nextRow, nextCol, autito); // Move the current Autito to the collision position
-                board.placeAutito(row, col, null); // Remove the Autito from the original position
+                // Move the current Autito to the collision position
+                board.placeAutito(nextRow, nextCol, autito);
+                // Remove the Autito from the original position
+                board.placeAutito(row, col, null);
 
                 System.out.println("Collision detected! Autito moved to position " + (char) ('A' + nextRow) + " " + (nextCol + 1));
                 return;
             }
+
+            // Update the current position
+            currentRow = nextRow;
+            currentCol = nextCol;
         }
     }
 

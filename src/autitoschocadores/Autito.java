@@ -62,7 +62,7 @@ public class Autito { // It's better to start class names with a capital letter
 
     public Autito(int startPosition) {
         this.carPosition = startPosition;
-        this.currentOrientation = carUp; // Default orientation
+        //this.currentOrientation = carUp; // Default orientation
     }
 
 //ROTATE CLOCKWISE AND GET ORIENTATION;

@@ -69,17 +69,35 @@ public class Board {
     public boolean isValidPosition(int row, int col) {
         return row >= 0 && row < size && col >= 0 && col < size;
     }
-// CHECK AUTITO DIRECTIONS TO GET NEXT POSITIONS
-public boolean checkAutitoInDirections(int row, int col) {
-    int[] directions = {0, 1, 2, 3}; // Directions: 0 (right), 1 (down), 2 (left), 3 (up)
-    String autitoSavedPos;
-    // Iterate over all directions
-    for (int direction : directions) {  
-        Autito autito = getAutitoAt(row, col); // Get the Autito at the specified position`
-        autitoSavedPos = autito.getCarDirection(); //save autito's pos to be reverted to later
-        // Rotate the Autito clockwise
-        autito.rotateClockwise();
 
+    // CHECK AUTITO DIRECTIONS TO GET NEXT POSITIONS
+public boolean checkAutitoInDirections(int row, int col) {
+    int[] relevantDirections;
+    Autito autito = getAutitoAt(row, col);
+    String autitoSavedPos = autito.getCarDirection(); // Guarda la posición del autito
+
+    // Determina las direcciones adyacentes relevantes según la orientación actual del autito
+    switch (autitoSavedPos) {
+        case "carUp":
+            relevantDirections = new int[]{1, 2, 3}; // Derecha, abajo, izquierda
+            break;
+        case "carRight":
+            relevantDirections = new int[]{2, 3, 0}; // Abajo, izquierda, arriba
+            break;
+        case "carDown":
+            relevantDirections = new int[]{3, 0, 1}; // Izquierda, arriba, derecha
+            break;
+        case "carLeft":
+            relevantDirections = new int[]{0, 1, 2}; // Arriba, derecha, abajo
+            break;
+        default:
+            relevantDirections = new int[0]; // Sin direcciones relevantes
+    }
+
+    // Itera sobre las direcciones adyacentes relevantes y realiza las operaciones necesarias
+    for (int direction : relevantDirections) {
+        // Resto del código para verificar colisiones y realizar las operaciones necesarias en cada dirección
+        
         // Get the initial position of the Autito
         int currentRow = row;
         int currentCol = col;
@@ -105,9 +123,9 @@ public boolean checkAutitoInDirections(int row, int col) {
                 returnToOriginalPos(autitoSavedPos,row,col);
                 return true; // There's an Autito in this direction
             }
-            returnToOriginalPos(autitoSavedPos,row,col);
+          //  returnToOriginalPos(autitoSavedPos,row,col);
         }
-        returnToOriginalPos(autitoSavedPos,row,col);
+    //    returnToOriginalPos(autitoSavedPos,row,col);
     }
     
     return false; // No Autito found in any direction
@@ -138,7 +156,7 @@ private void returnToOriginalPos(String pos, int row, int col){ //return cars to
     
 }
 
-    // Helper method to get the next position based on the current position and direction
+   // Helper method to get the next position based on the current position and direction
 public int[] getNextPosition(int row, int col, int direction) {
     int[] nextPosition = new int[2];
     
