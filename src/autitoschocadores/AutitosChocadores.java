@@ -307,8 +307,10 @@ public class AutitosChocadores
 
 private void moveAutitoToCollision(Autito autito, int row, int col) {
     String autitoDirection = autito.getCarDirection();
+    System.out.println(autitoDirection);
     int[] relevantDirections;
 
+    System.out.println(autitoDirection);
     // Determina las direcciones adyacentes relevantes según la orientación actual del autito
     switch (autitoDirection) {
         case "carUp":
@@ -325,7 +327,7 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
             break;
         default:
            relevantDirections = new int[0]; // Sin direcciones relevantes
-           System.out.println("IM CHECKING DEFAULT! ");
+          
     }
 
       // Iterate over all relevant directions
@@ -338,11 +340,13 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
         while (true) {
             // Get the next position after moving in the current direction
             int[] nextPosition = board.getNextPosition(currentRow, currentCol, direction);
+           // System.out.println("Im checking" + "Row" + currentRow + "Column" + currentCol + "Direction" + direction);
             int nextRow = nextPosition[0];
             int nextCol = nextPosition[1];
 
             // Check if the next position is valid
             if (!board.isValidPosition(nextRow, nextCol)) {
+               // System.out.println("im not a valid position");
                 break; // Reached the edge of the board
             }
 
@@ -352,6 +356,7 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
             // If there's a collision, move the Autito
             if (nextAutito != null) {
                 // Move the current Autito to the collision position
+                autito.setOrientation(direction);
                 board.placeAutito(nextRow, nextCol, autito);
                 // Remove the Autito from the original position
                 board.placeAutito(row, col, null);

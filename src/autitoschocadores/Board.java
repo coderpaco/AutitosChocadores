@@ -161,19 +161,19 @@ public int[] getNextPosition(int row, int col, int direction) {
     int[] nextPosition = new int[2];
     
     switch (direction) {
-        case 0: // Right
+        case 1: // Right
             nextPosition[0] = row;
             nextPosition[1] = col + 1;
             break;
-        case 1: // Down
+        case 2: // Down
             nextPosition[0] = row + 1;
             nextPosition[1] = col;
             break;
-        case 2: // Left
+        case 3: // Left
             nextPosition[0] = row;
             nextPosition[1] = col - 1;
             break;
-        case 3: // Up
+        case 0: // Up
             nextPosition[0] = row - 1;
             nextPosition[1] = col;
             break;
