@@ -128,4 +128,5 @@ public class Autito { // It's better to start class names with a capital letter
         }
     }
 }
-//CHECK NULL EXP rotateClockwise
+////Diego Pereira Puig - 329028
+//Davit Dostourian Erbe, 281665

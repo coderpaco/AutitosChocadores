@@ -25,4 +25,5 @@ public class gameConfiguration {
         }
     }
 }
-
+//Diego Pereira Puig - 329028
+//Davit Dostourian Erbe, 281665

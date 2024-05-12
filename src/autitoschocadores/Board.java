@@ -185,3 +185,5 @@ public int[] getNextPosition(int row, int col, int direction) {
 }
 
 }
+//Diego Pereira Puig - 329028
+//Davit Dostourian Erbe, 281665

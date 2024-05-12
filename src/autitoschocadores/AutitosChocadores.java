@@ -634,3 +634,6 @@ public Jugadores createPlayer()
         }
     }
 }
+
+//Diego Pereira Puig - 329028
+//Davit Dostourian Erbe, 281665
