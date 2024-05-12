@@ -171,9 +171,13 @@ public class AutitosChocadores
                     System.exit(0);
             }
             System.out.println("Desea volver al menu principal? (si/no)");
+        choice = scanner.nextLine().toLowerCase();
+        while (!choice.equals("si") && !choice.equals("no")) {
+            System.out.println("Respuesta no válida. Por favor, responda 'si' o 'no'.");
             choice = scanner.nextLine().toLowerCase();
         }
     }
+}
 
     private void startGame()
     {
