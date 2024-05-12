@@ -1,5 +1,7 @@
 package autitoschocadores;
 
+import java.util.Random;
+
 public class Autito { // It's better to start class names with a capital letter
     private int carPosition;
     private final char[][] carUp = {
@@ -127,6 +129,29 @@ public class Autito { // It's better to start class names with a capital letter
                 throw new IllegalArgumentException("Invalid direction");
         }
     }
+   // Method to apply random colors to asterisks and yellow highlight to 'o'
+   public void applyRandomColors() {
+    Random random = new Random();
+
+    for (int i = 0; i < currentOrientation.length; i++) {
+        for (int j = 0; j < currentOrientation[i].length; j++) {
+            char currentChar = currentOrientation[i][j];
+            if (currentChar == '*') {
+                // Generate a random color for the asterisk
+                int colorIndex = random.nextInt(7) + 31; // ANSI color codes for text colors
+                System.out.print("\u001B[" + colorIndex + "m" + currentChar); // Set color and print asterisk
+            } else if (currentChar == 'o') {
+                // Apply yellow highlight to 'o'
+                System.out.print("\u001B[33m" + currentChar); // Set yellow color and print 'o'
+            } else {
+                // Print other characters as they are
+                System.out.print(currentChar);
+            }
+        }
+        System.out.println(); // Move to the next line after printing each row
+    }
+    System.out.print("\u001B[0m"); // Reset color at the end
+}
 }
 ////Diego Pereira Puig - 329028
 //Davit Dostourian Erbe, 281665
