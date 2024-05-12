@@ -40,7 +40,8 @@ public class Autito { // It's better to start class names with a capital letter
     // private Tablero board;
 
     private char[][] currentOrientation;
-
+    private String carColor; // To store the ANSI color code for '*'
+    
     // Accessor methods
     public char[][] getCarUp() {
         return carUp;
@@ -64,7 +65,8 @@ public class Autito { // It's better to start class names with a capital letter
 
     public Autito(int startPosition) {
         this.carPosition = startPosition;
-        //this.currentOrientation = carUp; // Default orientation
+        this.currentOrientation = carUp; // Default orientation
+        setRandomColor(); // Assign a random color at instantiation
     }
 
 //ROTATE CLOCKWISE AND GET ORIENTATION;
@@ -130,6 +132,24 @@ public class Autito { // It's better to start class names with a capital letter
         }
     }
    // Method to apply random colors to asterisks and yellow highlight to 'o'
+    
+    public String getCarColor() {
+        return carColor;
+    }
+        
+    private void setRandomColor() {
+        Random random = new Random();
+        String[] colors = {
+            "\033[31m", // Red
+            "\033[32m", // Green
+            "\033[34m", // Blue
+            "\033[35m", // Magenta
+            "\033[36m"  // Cyan
+        };
+        this.carColor = colors[random.nextInt(colors.length)];
+    }
+    
+    
    public void applyRandomColors() {
     Random random = new Random();
 

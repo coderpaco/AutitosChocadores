@@ -456,57 +456,37 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
         }
     }
 
-    private void displayGameBoard() 
-    {
-        printColumnNumbers(); // Print column numbers at the top
-    
-        for (int row = 0; row < m; row++) 
-        {
-            printRowBorder();
+    private void displayGameBoard() {
+    printColumnNumbers(); // Print column numbers at the top
 
-            for (int i = 0; i < 4; i++) 
-            { // Loop for each row within a cell
-                // Print the row border
-                if (i == 0) 
-                {
-                    System.out.print((char) ('A' + row)); // Print the row LETTER (a,b,c,d) only for the first cell in a row
-                }
-                if(i != 0)
-                {
-                    System.out.print((char) (' ')); // Print the row LETTER (a,b,c,d) only for the first cell in a row
-                }
-                System.out.print(" |");
-    
-                for (int col = 0; col < m; col++) 
-                {
-                    Autito autito = board.getAutitoAt(row, col);
-                    
-                    if (autito != null) 
-                    {
-                        char[][] carRepresentation = autito.getOrientation();
-                        for (int j = 0; j < 1; j++) 
-                        { // Loop for each row in a car representation
-                            for (int k = 0; k < 4; k++) 
-                            { // Loop for each column in a row of car representation
-                                System.out.print(carRepresentation[i][k]);
-                            }
-                            // Add whitespace padding to make each cell the same size
-                            System.out.print("");
-                        }
-                    } else 
-                    {
-                        // No cars, print empty spaces
-                        System.out.print("    ");
+    for (int row = 0; row < m; row++) {
+        printRowBorder();
+        for (int i = 0; i < 4; i++) { // Loop for each row within a cell
+            System.out.print((i == 0 ? (char) ('A' + row) : ' ') + " |"); // Print the row letter only for the first cell in a row
+
+            for (int col = 0; col < m; col++) {
+                Autito autito = board.getAutitoAt(row, col);
+                
+                if (autito != null) {
+                    System.out.print(autito.getCarColor()); // Add color
+                    char[][] carRepresentation = autito.getOrientation();
+                    for (int k = 0; k < 4; k++) {
+                        System.out.print(carRepresentation[i][k]);
                     }
-                    System.out.print("|");
+                    System.out.print("\033[0m"); // Reset to default color
+                } else {
+                    System.out.print("    "); // No cars, print empty spaces
                 }
-                System.out.println(); // Move to the next line for the next row
+                System.out.print("|");
             }
+            System.out.println(); // Move to the next line for the next row
         }
-    
-        printRowBorder(); // Print the bottom row border
-        System.out.println(); // Add an extra line for clarity
     }
+
+    printRowBorder(); // Print the bottom row border
+    System.out.println(); // Add an extra line for clarity
+}
+
     
     public int getValidInput(int min, int max) 
     {

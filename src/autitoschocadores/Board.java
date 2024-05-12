@@ -55,15 +55,22 @@ public class Board {
     }
     
     // Display the representation of the Autito
-    private void displayAutito(Autito autito) {
-        char[][] representation = autito.getOrientation();
-        for (char[] row : representation) {
-            for (char c : row) {
+private void displayAutito(Autito autito) {
+    char[][] representation = autito.getOrientation();
+    String color = autito.getCarColor();
+    for (char[] row : representation) {
+        for (char c : row) {
+            if (c == '*') {
+                System.out.print(color + c + "\033[0m" + " ");
+            } else if (c == 'o') {
+                System.out.print("\033[43m" + c + "\033[0m" + " "); // Yellow background for 'o'
+            } else {
                 System.out.print(c + " ");
             }
-            System.out.println();
         }
+        System.out.println();
     }
+}
 
     // Check if the position is within the bounds of the board
     public boolean isValidPosition(int row, int col) {
