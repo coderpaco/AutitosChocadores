@@ -73,9 +73,7 @@ public class AutitosChocadores
         board = new Board(m); 
         System.out.println("Bienvenidos! Te gustaria jugar Autitos Chocadores? (si/no)");
         String choice = scanner.nextLine().toLowerCase();
-        
-        while (choice.equals("si")) 
-        {
+        while (choice.equals("si")){
             // Ask the player for the game setup option
             System.out.println("Eligir un opcion:");
             System.out.println("a) Registrar un jugador");
@@ -85,9 +83,7 @@ public class AutitosChocadores
             System.out.println("e) Fin");
 
             char setupOption = scanner.nextLine().toLowerCase().charAt(0);
-
-            switch (setupOption) 
-            {
+            switch (setupOption){
                 case 'a':// user input to create table
                     Jugadores newPlayer = createPlayer();
                     ranking.addPlayer(newPlayer); // Add the new player to the ranking
@@ -102,9 +98,8 @@ public class AutitosChocadores
                     // !!Have code to error if there are no players input into the list
                     if (jugadoresList.size() < 2) {
                         System.out.println("Debes tener al menos dos jugadores registrados para jugar.");
-                        break;
+                    break;
                     }
-
                     // Elige dos jugadores para jugar
                     Jugadores[] jugadores = elegirJugadores();
                     if (jugadores == null) {
@@ -149,7 +144,6 @@ public class AutitosChocadores
                         case 3:// tablero predefinido
                             // load already made table coords?
                             // loadGameDataFromFile("Test/predefinedTable.txt");
-
                             playPredefinedGame();
                             startGame();
                             break;
@@ -157,8 +151,8 @@ public class AutitosChocadores
                             System.out.println("Opcion invalido, saliendo del juego.");
                             System.exit(0);
                             break;
-                    }
-                    break;
+                        }
+                        break;
                 case 'd':
                     ranking.sortByPoints();
                     ranking.displayRanking(); // Display the sorted ranking
@@ -170,7 +164,7 @@ public class AutitosChocadores
                     System.out.println("Opcion invalido, saliendo del juego.");
                     System.exit(0);
             }
-            System.out.println("Desea volver al menu principal? (si/no)");
+        System.out.println("Desea volver al menu principal? (si/no)");
         choice = scanner.nextLine().toLowerCase();
         while (!choice.equals("si") && !choice.equals("no")) {
             System.out.println("Respuesta no válida. Por favor, responda 'si' o 'no'.");
@@ -178,21 +172,21 @@ public class AutitosChocadores
         }
         if (choice.equals("no")){
             System.out.println("Saliendo del juego.");
-                    System.exit(0);
+                System.exit(0);
         }
-    }
+    }   
 }
 
     private void startGame()
     {
         boolean player1 = true;
         System.out.println("players are: " + currentPlayerName(player1) + " and " + currentPlayerName(!player1));
-
-        while (gameWon !=true) {
+        while (gameWon !=true) 
+        {
             System.out.println("Player " + currentPlayerName(player1) +  " Input move or press S R X");
             String chosenMove = scanner.nextLine().toUpperCase();
-            
-            switch(chosenMove){
+            switch(chosenMove)
+            {
                 case "S":
                     getMovesList();
                     editPlayerStats(player1).changePoints(1); //subtract a point for asking for help like a nerd
@@ -219,11 +213,8 @@ public class AutitosChocadores
                     editPlayerStats(player1).addLoss();//add forfeit
                     editPlayerStats(!player1).addWin(); //add win
                     gameWon = true;
-            }
-            
-            
+            }   
         }
-
     }
     
     private Jugadores editPlayerStats(boolean value){
@@ -265,12 +256,8 @@ public class AutitosChocadores
                 }
             }
         }
-        /*
-        for (int k = 0; k < movesList.size(); k++){
-            System.out.println(k);
-        }
-        */
     }
+    
     private boolean checkMovesExist(){
         ArrayList<String> movesList = new ArrayList<>();
         boolean movesExist = true;
@@ -295,38 +282,30 @@ public class AutitosChocadores
     private void handleMove(String move) {
         String receivedMove = move.toUpperCase(); // Convertir el movimiento a mayúsculas para consistencia
         boolean validMove = false;
-    
         while (!validMove) {
             try {
                 // Dividir el movimiento en partes
                 String[] parts = receivedMove.split("");
                 String position = parts[0]; // Letra de la posición
                 int direction = Integer.parseInt(parts[1]); // Dirección del autito
-    
                 // Calcular la posición del autito en el tablero
                 int row = position.charAt(0) - 'A'; // Convertir la letra a un índice de fila (0 para 'A', 1 para 'B', etc.)
                 int col = direction - 1; // Restar 1 porque las direcciones comienzan desde 1 en la entrada del usuario
-    
-                // Verificar si la posición está dentro de los límites del tablero
+                // Verificar si la posición está dentro de los límites del tablero// Restar 1 porque las direcciones comienzan desde 1 en la entrada del 
                 if (board.isValidPosition(row, col)) {
                     Autito autito = board.getAutitoAt(row, col); // Obtener el autito en la posición especificada
-    
                     // Verificar si el autito es seleccionable (tiene otro autito alrededor después de girar en sentido horario)
                     if (board.checkAutitoInDirections(row, col)) {
                         // Mover el autito al primer autito que encuentre chocando en sentido horario
                         moveAutitoToCollision(autito, row, col);
-    
-                        // Indicar que el movimiento fue válido
                         validMove = true;
-    
-                        // Mostrar el tablero actualizado
                         displayGameBoard();
                     } else {
                         System.out.println("No hay autitos alrededor de esta posicion para chocar. Intente de nuevo.");
                         receivedMove = scanner.nextLine().toUpperCase(); // Solicitar un nuevo movimiento
                     }
                 } else {
-                    System.out.println("Posición fuera de límites. Intente de nuevo.");
+                    System.out.println("Posicion fuera de limites. Intente de nuevo.");
                     receivedMove = scanner.nextLine().toUpperCase(); // Solicitar un nuevo movimiento
                 }
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
@@ -339,11 +318,7 @@ public class AutitosChocadores
 
 private void moveAutitoToCollision(Autito autito, int row, int col) {
     String autitoDirection = autito.getCarDirection();
-    //System.out.println(autitoDirection);
     int[] relevantDirections;
-
-    //System.out.println(autitoDirection);
-    // Determina las direcciones adyacentes relevantes según la orientación actual del autito
     switch (autitoDirection) {
         case "carUp":
             relevantDirections = new int[]{1, 2, 3}; // Derecha, abajo, izquierda
@@ -359,15 +334,12 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
             break;
         default:
            relevantDirections = new int[0]; // Sin direcciones relevantes
-          
     }
-
       // Iterate over all relevant directions
       for (int direction : relevantDirections) {
         // Get the initial position of the Autito
         int currentRow = row;
         int currentCol = col;
-
         // Move the Autito in the current direction until it reaches the end or finds another Autito
         while (true) {
             // Get the next position after moving in the current direction
@@ -375,44 +347,27 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
            // System.out.println("Im checking" + "Row" + currentRow + "Column" + currentCol + "Direction" + direction);
             int nextRow = nextPosition[0];
             int nextCol = nextPosition[1];
-
             // Check if the next position is valid
             if (!board.isValidPosition(nextRow, nextCol)) {
-               // System.out.println("im not a valid position");
                 break; // Reached the edge of the board
             }
-
-            // Retrieve the Autito object at the next position
             Autito nextAutito = board.getAutitoAt(nextRow, nextCol);
-
-            // If there's a collision, move the Autito
             if (nextAutito != null) {
-                // Move the current Autito to the collision position
                 autito.setOrientation(direction);
-                board.placeAutito(nextRow, nextCol, autito);
-                // Remove the Autito from the original position
-                board.placeAutito(row, col, null);
-
-                //System.out.println("Collision detected! Autito moved to position " + (char) ('A' + nextRow) + " " + (nextCol + 1));
+                board.placeAutito(nextRow, nextCol, autito); //add new autito
+                board.placeAutito(row, col, null); //remove old autito
                 return;
             }
-
-            // Update the current position
             currentRow = nextRow;
             currentCol = nextCol;
         }
     }
-
-    // No collisions found in any direction
-    System.out.println("No se encontraron autitos para chocar. El autito no se movió.");
+    System.out.println("No se encontraron autitos para chocar. El autito no se movio.");
 }
      
     private void rotateBoard() {
-        //System.out.println("Rotating the board...");
-    
         // Create a new board to store the rotated cells
         Board rotatedBoard = new Board(m);
-    
         // Rotate the board by swapping rows and columns
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < m; j++) {
@@ -424,10 +379,7 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
                 }
             }
         }
-    
-        // Update the original board with the rotated board
         board = rotatedBoard;
-    
         // Rotate all cars on the board
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < m; j++) {
@@ -438,14 +390,11 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
             }
         }
         displayGameBoard();
-        //System.out.println("Board and cars rotated successfully.");
     }
     
     private void playPredefinedGame() 
     {
         m = 5;
-       
-       // board = new char[m][m]; // Initialize the game board IM INITIALIZING UP
         board = new Board(m); 
         // Place the predefined cars on the board
         placeCar("A12"); // Car facing down
@@ -456,7 +405,6 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
         placeCar("E10"); // Car facing up
         placeCar("E41"); // Car facing right
         placeCar("E53"); // Car facing left
-    
         displayGameBoard(); // Display the game board with predefined cars
     }
 
@@ -466,14 +414,9 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
         {
             String[] parts = input.split("");
             String position = parts[0];
-            //System.out.println("position: " + position);
-            
-            int direction = Integer.parseInt(parts[2]);
-            //System.out.println("direction: " + direction);
+            int direction = Integer.parseInt(parts[2]); //gets car dirrection from last num
             int row = position.charAt(0) - 'A';
-            //System.out.println("row: " + row);
-            int col = Integer.parseInt(parts[1]) - 1;
-            //System.out.println("col: " + col);
+            int col = Integer.parseInt(parts[1]) - 1; //gets car collumn from first num, subtract 1 
             // Check if the calculated indices are within the bounds of the board
             if (row >= 0 && row < m && col >= 0 && col < m) 
             {
@@ -493,15 +436,12 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
 
     private void displayGameBoard() {
     printColumnNumbers(); // Print column numbers at the top
-
     for (int row = 0; row < m; row++) {
         printRowBorder();
         for (int i = 0; i < 4; i++) { // Loop for each row within a cell
             System.out.print((i == 0 ? (char) ('A' + row) : ' ') + " |"); // Print the row letter only for the first cell in a row
-
             for (int col = 0; col < m; col++) {
                 Autito autito = board.getAutitoAt(row, col);
-                
                 if (autito != null) {
                     System.out.print(autito.getCarColor()); // Add color
                     char[][] carRepresentation = autito.getOrientation();
@@ -517,28 +457,22 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
             System.out.println(); // Move to the next line for the next row
         }
     }
-
     printRowBorder(); // Print the bottom row border
     System.out.println(); // Add an extra line for clarity
 }
 
-    
-    public int getValidInput(int min, int max) 
-    {
+    public int getValidInput(int min, int max) {
         int input = 0;
         while (input == 0) {
-            try 
-            {
+            try {
                 int value = scanner.nextInt();
                 scanner.nextLine();
                 if (value >= min && value <= max) {
                     input = value;
-                } else 
-                {
+                } else {
                     System.out.println("Error: Input out of bounds");
                 }
-            } catch (InputMismatchException e) 
-            {
+            } catch (InputMismatchException e) {
                 System.out.println("Error: Invalid Input (InputMismatchException)");
                 scanner.nextLine();
             }
@@ -546,28 +480,23 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
         return input;
     }
 
-    private void printColumnNumbers() 
-    {
+    private void printColumnNumbers() {
         System.out.print(" "); // whitespace before nums
-        for (int j = 0; j < m; j++) 
-        {
+        for (int j = 0; j < m; j++) {
             System.out.printf("%5d", (j + 1)); // pads nums with spaces tomake them at least 4 chars wide
         }
         System.out.println();
     }
 
-    private void printRowBorder() 
-    {
+    private void printRowBorder() {
         System.out.print("  +"); // beginning
-        for (int j = 0; j < m; j++) 
-        {
+        for (int j = 0; j < m; j++) {
             System.out.print("----+"); // car can be 2x4 or 4x2 spaces, should make each cell 4 wide
         }
         System.out.println();
     }
 
-public Jugadores createPlayer() 
-{
+public Jugadores createPlayer() {
     System.out.println("Ingrese su nombre:");
     String nameInput = scanner.nextLine();
     System.out.println("Ingrese su edad: (1-100)");
@@ -576,24 +505,22 @@ public Jugadores createPlayer()
     String aliasInput = scanner.nextLine();
     Jugadores newPlayer = new Jugadores(nameInput, ageInput, aliasInput, 0, 0, 0, 0, 0);
     return newPlayer;
-
-    
-    
     }
-    private GameConfiguration customBoardConfiguration;
+    
+private GameConfiguration customBoardConfiguration;
 
     private void configureCustomBoard() {
-        System.out.println("Ingrese el tamaño del tablero (entre 5x5 y 7x7):");
-        m = getValidInput(5, 7); // Validar el tamaño del tablero
+        System.out.println("Ingrese el tamano del tablero (entre 5x5 y 7x7):");
+            m = getValidInput(5, 7); // Validar el tamaño del tablero
         System.out.println("Ingrese la cantidad de autos (entre 3 y 12):");
-        n = getValidInput(3, 12); // Validar la cantidad de autos
+            n = getValidInput(3, 12); // Validar la cantidad de autos
         // Inicializa el tablero con el tamaño seleccionado
          board = new Board(m);
     
       String[] carPositions = new String[n];
             for (int i = 0; i < n; i++) {
-                System.out.println("Ingrese la posición y dirección del auto " + (i + 1) + " (formato A124):");//IT NEEDS AN EXCEPTION
-                carPositions[i] = scanner.nextLine();
+                System.out.println("Ingrese la posicion y direccion del auto " + (i + 1) + " (formato A12, FilaColOrrientacion):");//IT NEEDS AN EXCEPTION
+                carPositions[i] = scanner.nextLine().toUpperCase();;
                 placeCar(carPositions[i]);
                 } 
     

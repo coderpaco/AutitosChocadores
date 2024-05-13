@@ -1,6 +1,9 @@
 package autitoschocadores;
 
+import java.util.*;
+
 public class Jugadores {
+    public static Scanner scanner = new Scanner(System.in); 
     private String alias; // no need to ask for player name just username?
     private String name;
     private int age;
@@ -92,7 +95,6 @@ public class Jugadores {
         this.games = this.games + 1;
     }
     
-    
     public void changePoints(int gameStatus)
     {
         switch (gameStatus){
@@ -121,3 +123,4 @@ public class Jugadores {
                 + this.getForfeits() + " | " + this.getPoints() + " | ";
     }
 }
+
