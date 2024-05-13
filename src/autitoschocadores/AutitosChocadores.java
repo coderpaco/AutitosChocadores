@@ -214,7 +214,14 @@ public class AutitosChocadores
                     player1 = !player1;
                     break;
             }
-        
+            if (checkMovesExist() == false){
+                    System.out.println(currentPlayerName(player1) + " no more moves, " + currentPlayerName(!player1)  + " wins!");
+                    editPlayerStats(player1).addLoss();//add forfeit
+                    editPlayerStats(!player1).addWin(); //add win
+                    gameWon = true;
+            }
+            
+            
         }
 
     }
@@ -266,6 +273,26 @@ public class AutitosChocadores
         if (movesList.size()< 1){
             System.out.println("no moves loser");
         }
+    }
+    private boolean checkMovesExist(){
+        ArrayList<String> movesList = new ArrayList<>();
+        boolean movesExist = true;
+        for (int i = 0; i < m; i++){
+            for (int j = 0; j < m; j++){
+                Autito autito = board.getAutitoAt(i, j);
+                if (autito != null){
+                        if (board.checkAutitoInDirections(i,j) == true){
+                        movesList.add(i + " " + j);
+                        movesExist = true;
+                    } 
+                }
+            }
+        }
+        if (movesList.size()< 1){
+            System.out.println("no moves loser");
+            movesExist = false;
+        }
+        return movesExist;
     }
 
     private void handleMove(String move) {
