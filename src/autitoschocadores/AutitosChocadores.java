@@ -137,6 +137,7 @@ public class AutitosChocadores
                             }
                             displayGameBoard();
                             startGame();
+                            break;
                         } else {
                             System.out.println("Error: No se ha configurado ningún tablero propio.");
                         }
@@ -250,7 +251,7 @@ public class AutitosChocadores
                 if (autito != null){
                             if (board.checkAutitoInDirections(i,j) == true){
                         String newI = Character.toString((char) (i + 'A'));
-                        System.out.println("Available move: " + newI + " " + (j+1));
+                        System.out.println("Available move: " + newI + "" + (j+1));
                         movesList.add(i + " " + j);
                     } 
                 }
@@ -428,8 +429,7 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
             {
                 System.out.println("Posición fuera de límites, intente de nuevo.");
             }
-        } catch (Exception e) 
-        {
+        } catch (Exception e) {
             System.out.println("Error en la entrada. Formato correcto: A122 (fila,col,orrientacion");
         }
     }
@@ -518,19 +518,34 @@ private GameConfiguration customBoardConfiguration;
          board = new Board(m);
     
       String[] carPositions = new String[n];
+      boolean validMove = false;
             for (int i = 0; i < n; i++) {
-                System.out.println("Ingrese la posicion y direccion del auto " + (i + 1) + " (formato A12, FilaColOrrientacion):");//IT NEEDS AN EXCEPTION
-                carPositions[i] = scanner.nextLine().toUpperCase();;
-                placeCar(carPositions[i]);
+                validMove = false;
+                while (validMove == false){
+                    try{
+                    System.out.println("Ingrese la posicion y direccion del auto " + (i + 1) + " (formato A12, FilaColOrrientacion):");//IT NEEDS AN EXCEPTION
+                    carPositions[i] = scanner.nextLine().toUpperCase();
+                    String[] parts = carPositions[i].split("");
+                    String position = parts[0];
+                    int row = position.charAt(0) - 'A';
+                    int col = Integer.parseInt(parts[1]) - 1; //gets car collumn from first num, subtract 1 
+                    if (row >= 0 && row < m && col >= 0 && col < m) {
+                        placeCar(carPositions[i]);
+                        validMove=true;
+                    }
+                    else {
+                         System.out.println("Posición fuera de límites, intente de nuevo.");
+                    }
+                     } catch (Exception e) {
+                           System.out.println("Error en la entrada. Formato correcto: A122 (fila,col,orrientacion");
+                    }
                 } 
-    
                 //Save game configuration
                 customBoardConfiguration =  new GameConfiguration(m, n, carPositions);
                 //Display the custom board configuration
+            }
             displayGameBoard();
         }
-
-
 
         private void generateRandomTable(int numRowsCols, int numCars) {
             // Genera un tablero aleatorio basado en las filas/columnas
@@ -545,7 +560,7 @@ private GameConfiguration customBoardConfiguration;
                 int randomRow = random.nextInt(m);
                 int randomCol = random.nextInt(m);
                 int direction = random.nextInt(4); // Dirección aleatoria (0-3)
-                String position = Character.toString((char)('A' + randomRow)) + (randomCol + 1) + " " + direction;
+                String position = Character.toString((char)('A' + randomRow)) + (randomCol + 1) + direction;
                 placeCar(position);
             }
             
