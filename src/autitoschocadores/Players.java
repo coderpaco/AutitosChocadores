@@ -2,7 +2,7 @@ package autitoschocadores;
 
 import java.util.*;
 
-public class Jugadores {
+public class Players {
     public static Scanner scanner = new Scanner(System.in); 
     private String alias; // no need to ask for player name just username?
     private String name;
@@ -104,7 +104,7 @@ public class Jugadores {
     }
     }
 
-    public Jugadores(String playerName, int playerAge, String playerAlias, int playerGames, int playerWins,
+    public Players(String playerName, int playerAge, String playerAlias, int playerGames, int playerWins,
             int playerLosses, int playerForfeits, int playerPoints) {
         this.name = playerName;
         this.age = playerAge;

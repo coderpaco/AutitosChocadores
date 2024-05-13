@@ -2,7 +2,7 @@ package autitoschocadores;
 
 import java.util.Random;
 
-public class Autito { // It's better to start class names with a capital letter
+public class Car { // It's better to start class names with a capital letter
     private int carPosition;
     private final char[][] carUp = {
             {' ', 'o', 'o', ' '},
@@ -63,7 +63,7 @@ public class Autito { // It's better to start class names with a capital letter
         return carPosition;
     };
 
-    public Autito(int startPosition) {
+    public Car(int startPosition) {
         this.carPosition = startPosition;
         this.currentOrientation = carUp; // Default orientation
         setRandomColor(); // Assign a random color at instantiation
@@ -92,7 +92,7 @@ public class Autito { // It's better to start class names with a capital letter
 
     
 
-    // Method to return the current orientation of the Autito
+    // Method to return the current orientation of the car
     public char[][] getOrientation() {
         return currentOrientation;
     }

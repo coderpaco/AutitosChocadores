@@ -3,13 +3,13 @@ package autitoschocadores;
 import java.util.*;
 
 public class Ranking {
-    private ArrayList<Jugadores> players;
+    private ArrayList<Players> players;
 
-    public Ranking(ArrayList<Jugadores> players) {
+    public Ranking(ArrayList<Players> players) {
         this.players = players;
     }
 
-    public void addPlayer(Jugadores player) {
+    public void addPlayer(Players player) {
         players.add(player);
     }
 
@@ -35,7 +35,7 @@ public void sortByPoints() {
         System.out.println("+------------+----------+--------+---------+----------+---------+");
     
         for (int i = 0; i < players.size(); i++) {
-            Jugadores player = players.get(i);
+            Players player = players.get(i);
             System.out.printf("| %-10s | %-8d | %-6d | %-7d | %-8d | %-7d |%n", 
                               player.getAlias(), player.getGames(), player.getWins(), 
                               player.getLosses(), player.getForfeits(), player.getPoints());

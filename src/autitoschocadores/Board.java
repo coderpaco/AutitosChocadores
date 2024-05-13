@@ -1,12 +1,12 @@
 package autitoschocadores;
 
 public class Board {
-    private Autito[][] board;
+    private Car[][] board;
     private int size;  
     
     public Board(int size) {
         this.size = size;
-        this.board = new Autito[size][size];
+        this.board = new Car[size][size];
         initializeBoard();
     }
 
@@ -19,17 +19,17 @@ public class Board {
         }
     }
 
-    // Place an Autito on the board at the specified position
-    public void placeAutito(int row, int col, Autito autito) {
+    // Place a car on the board at the specified position
+    public void placeCar(int row, int col, Car car) {
         if (isValidPosition(row, col)) {
-            board[row][col] = autito;
+            board[row][col] = car;
         } else {
-            System.out.println("Invalid position for placing Autito.");
+            System.out.println("Invalid position for placing car.");
         }
     }
 
-    public Autito getAutitoAt(int row, int col) {
-        //char[][] emptyCellBlock = autito.getEmptyCell;
+    public Car getCarAt(int row, int col) {
+        //char[][] emptyCellBlock = car.getEmptyCell;
         if (row >= 0 && row < board.length && col >= 0 && col < board[0].length) {
             return board[row][col];
         } else {
@@ -43,7 +43,7 @@ public class Board {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (board[i][j] != null) {
-                    displayAutito(board[i][j]);
+                    displayCar(board[i][j]);
                 } else {
                     System.out.print("- "); // Empty cell
                 }
@@ -53,9 +53,9 @@ public class Board {
     }
     
     // Display the representation of the Autito
-private void displayAutito(Autito autito) {
-    char[][] representation = autito.getOrientation();
-    String color = autito.getCarColor();
+private void displayCar(Car car) {
+    char[][] representation = car.getOrientation();
+    String color = car.getCarColor();
     for (char[] row : representation) {
         for (char c : row) {
             if (c == '*') {
@@ -75,18 +75,18 @@ private void displayAutito(Autito autito) {
         return row >= 0 && row < size && col >= 0 && col < size;
     }
 
-    // CHECK AUTITO DIRECTIONS TO GET NEXT POSITIONS
-public boolean checkAutitoInDirections(int row, int col) {
+    // CHECK CAR DIRECTIONS TO GET NEXT POSITIONS
+public boolean checkCarInDirections(int row, int col) {
     int[] relevantDirections;
-    Autito autito = getAutitoAt(row, col);
-    if(autito == null){
-        System.out.println("Autito is null, choose a new position");
+    Car car = getCarAt(row, col);
+    if(car == null){
+        //System.out.println("Car is null, choose a new position");
         return false;
     }
-    String autitoSavedPos = autito.getCarDirection(); // Guarda la posición del autito
+    String carSavedPos = car.getCarDirection(); // save car pos
 
-    // Determina las direcciones adyacentes relevantes según la orientación actual del autito
-    switch (autitoSavedPos) {
+    // Determina las direcciones adyacentes relevantes según la orientación actual of the car
+    switch (carSavedPos) {
         case "carUp":
             relevantDirections = new int[]{1, 2, 3}; // Derecha, abajo, izquierda
             break;
@@ -107,11 +107,11 @@ public boolean checkAutitoInDirections(int row, int col) {
     for (int direction : relevantDirections) {
         // Resto del código para verificar colisiones y realizar las operaciones necesarias en cada dirección
         
-        // Get the initial position of the Autito
+        // Get the initial position of the car
         int currentRow = row;
         int currentCol = col;
 
-        // Move the Autito in the current direction until it reaches the end or finds another Autito
+        // Move the car in the current direction until it reaches the end or finds another car
         while (true) {
             // Get the next position after moving in the current direction
             int[] nextPosition = getNextPosition(currentRow, currentCol, direction);
@@ -127,14 +127,14 @@ public boolean checkAutitoInDirections(int row, int col) {
             currentRow = nextRow;
             currentCol = nextCol;
 
-            // Check if there's an Autito at the next position
-            if (getAutitoAt(currentRow, currentCol) != null) {
-                returnToOriginalPos(autitoSavedPos,row,col);
-                return true; // There's an Autito in this direction
+            // Check if there's a car at the next position
+            if (getCarAt(currentRow, currentCol) != null) {
+                returnToOriginalPos(carSavedPos,row,col);
+                return true; // There's a car in this direction
             }
-          //  returnToOriginalPos(autitoSavedPos,row,col);
+          //  returnToOriginalPos(carSavedPos,row,col);
         }
-    //    returnToOriginalPos(autitoSavedPos,row,col);
+    //    returnToOriginalPos(carSavedPos,row,col);
     }
     
     return false; // No Autito found in any direction
@@ -143,22 +143,22 @@ public boolean checkAutitoInDirections(int row, int col) {
 
 
 private void returnToOriginalPos(String pos, int row, int col){ //return cars to a saved pos
-    Autito autito = getAutitoAt(row,col);
+    Car car = getCarAt(row,col);
     switch (pos){
         case "carUp":
-            autito.setOrientation(0);
+            car.setOrientation(0);
             break;
         case "carRight":
-            autito.setOrientation(1);
+            car.setOrientation(1);
             break;
         case "carLeft":
-            autito.setOrientation(3);
+            car.setOrientation(3);
             break;
         case "carDown":
-            autito.setOrientation(2);
+            car.setOrientation(2);
             break;
         case "emptyCell":
-            autito.setOrientation(4);
+            car.setOrientation(4);
             break;        
     }
         
