@@ -302,7 +302,7 @@ public class AutitosChocadores
         while (!validMove) {
             try {
                 // Dividir el movimiento en partes
-                String[] parts = receivedMove.split(" ");
+                String[] parts = receivedMove.split("");
                 String position = parts[0]; // Letra de la posición
                 int direction = Integer.parseInt(parts[1]); // Dirección del autito
     
@@ -333,7 +333,7 @@ public class AutitosChocadores
                     receivedMove = scanner.nextLine().toUpperCase(); // Solicitar un nuevo movimiento
                 }
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-                System.out.println("Formato de movimiento incorrecto. Intente de nuevo. (Formato correcto: A 1)");
+                System.out.println("Formato de movimiento incorrecto. Intente de nuevo. (Formato correcto: A1)");
                 receivedMove = scanner.nextLine().toUpperCase(); // Solicitar un nuevo movimiento
             }
         }
@@ -451,14 +451,14 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
        // board = new char[m][m]; // Initialize the game board IM INITIALIZING UP
         board = new Board(m); 
         // Place the predefined cars on the board
-        placeCar("A1 2"); // Car facing down
-        placeCar("A2 3"); // Car facing left
-        placeCar("A4 2"); // Car facing down
-        placeCar("A5 0"); // Car facing up
-        placeCar("D5 2"); // Car facing down
-        placeCar("E1 0"); // Car facing up
-        placeCar("E4 1"); // Car facing right
-        placeCar("E5 3"); // Car facing left
+        placeCar("A12"); // Car facing down
+        placeCar("A23"); // Car facing left
+        placeCar("A42"); // Car facing down
+        placeCar("A50"); // Car facing up
+        placeCar("D52"); // Car facing down
+        placeCar("E10"); // Car facing up
+        placeCar("E41"); // Car facing right
+        placeCar("E53"); // Car facing left
     
         displayGameBoard(); // Display the game board with predefined cars
     }
@@ -467,13 +467,16 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
     {
         try 
         {
-            String[] parts = input.split(" ");
+            String[] parts = input.split("");
             String position = parts[0];
-            int direction = Integer.parseInt(parts[1]);
-
+            System.out.println("position: " + position);
+            
+            int direction = Integer.parseInt(parts[2]);
+            System.out.println("direction: " + direction);
             int row = position.charAt(0) - 'A';
-            int col = Integer.parseInt(position.substring(1)) - 1;
-
+            System.out.println("row: " + row);
+            int col = Integer.parseInt(parts[1]) - 1;
+            System.out.println("col: " + col);
             // Check if the calculated indices are within the bounds of the board
             if (row >= 0 && row < m && col >= 0 && col < m) 
             {
@@ -487,7 +490,7 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
             }
         } catch (Exception e) 
         {
-            System.out.println("Error en la entrada. Formato correcto: A12 2");
+            System.out.println("Error en la entrada. Formato correcto: A122 (fila,col,orrientacion");
         }
     }
 
@@ -592,7 +595,7 @@ public Jugadores createPlayer()
     
       String[] carPositions = new String[n];
             for (int i = 0; i < n; i++) {
-                System.out.println("Ingrese la posición y dirección del auto " + (i + 1) + " (formato A12 2):");//IT NEEDS AN EXCEPTION
+                System.out.println("Ingrese la posición y dirección del auto " + (i + 1) + " (formato A124):");//IT NEEDS AN EXCEPTION
                 carPositions[i] = scanner.nextLine();
                 placeCar(carPositions[i]);
                 } 
