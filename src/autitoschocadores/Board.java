@@ -81,6 +81,10 @@ private void displayAutito(Autito autito) {
 public boolean checkAutitoInDirections(int row, int col) {
     int[] relevantDirections;
     Autito autito = getAutitoAt(row, col);
+    if(autito == null){
+        System.out.println("Autito is null, choose a new position");
+        return false;
+    }
     String autitoSavedPos = autito.getCarDirection(); // Guarda la posición del autito
 
     // Determina las direcciones adyacentes relevantes según la orientación actual del autito

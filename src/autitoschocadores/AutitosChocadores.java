@@ -270,9 +270,6 @@ public class AutitosChocadores
             System.out.println(k);
         }
         */
-        if (movesList.size()< 1){
-            System.out.println("no moves loser");
-        }
     }
     private boolean checkMovesExist(){
         ArrayList<String> movesList = new ArrayList<>();
@@ -325,7 +322,7 @@ public class AutitosChocadores
                         // Mostrar el tablero actualizado
                         displayGameBoard();
                     } else {
-                        System.out.println("No hay autitos alrededor de esta posición para chocar. Intente de nuevo.");
+                        System.out.println("No hay autitos alrededor de esta posicion para chocar. Intente de nuevo.");
                         receivedMove = scanner.nextLine().toUpperCase(); // Solicitar un nuevo movimiento
                     }
                 } else {
@@ -342,10 +339,10 @@ public class AutitosChocadores
 
 private void moveAutitoToCollision(Autito autito, int row, int col) {
     String autitoDirection = autito.getCarDirection();
-    System.out.println(autitoDirection);
+    //System.out.println(autitoDirection);
     int[] relevantDirections;
 
-    System.out.println(autitoDirection);
+    //System.out.println(autitoDirection);
     // Determina las direcciones adyacentes relevantes según la orientación actual del autito
     switch (autitoDirection) {
         case "carUp":
@@ -396,7 +393,7 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
                 // Remove the Autito from the original position
                 board.placeAutito(row, col, null);
 
-                System.out.println("Collision detected! Autito moved to position " + (char) ('A' + nextRow) + " " + (nextCol + 1));
+                //System.out.println("Collision detected! Autito moved to position " + (char) ('A' + nextRow) + " " + (nextCol + 1));
                 return;
             }
 
@@ -411,7 +408,7 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
 }
      
     private void rotateBoard() {
-        System.out.println("Rotating the board...");
+        //System.out.println("Rotating the board...");
     
         // Create a new board to store the rotated cells
         Board rotatedBoard = new Board(m);
@@ -441,7 +438,7 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
             }
         }
         displayGameBoard();
-        System.out.println("Board and cars rotated successfully.");
+        //System.out.println("Board and cars rotated successfully.");
     }
     
     private void playPredefinedGame() 
@@ -469,14 +466,14 @@ private void moveAutitoToCollision(Autito autito, int row, int col) {
         {
             String[] parts = input.split("");
             String position = parts[0];
-            System.out.println("position: " + position);
+            //System.out.println("position: " + position);
             
             int direction = Integer.parseInt(parts[2]);
-            System.out.println("direction: " + direction);
+            //System.out.println("direction: " + direction);
             int row = position.charAt(0) - 'A';
-            System.out.println("row: " + row);
+            //System.out.println("row: " + row);
             int col = Integer.parseInt(parts[1]) - 1;
-            System.out.println("col: " + col);
+            //System.out.println("col: " + col);
             // Check if the calculated indices are within the bounds of the board
             if (row >= 0 && row < m && col >= 0 && col < m) 
             {
